@@ -20,6 +20,7 @@ describe("User register test", () => {
             const response = await request(app).post("/users/register").send(newUser);
             const { body, status } = response;
             expect(status).toBe(201);
+            expect(body).toHaveProperty("_id")
             expect(body).toHaveProperty("username")
             done();
         } catch (err) {
