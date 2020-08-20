@@ -20,7 +20,6 @@ class UserController {
             const newUser = {
                 username: req.body.username
             }
-
             const currentUser = await UserModel.getAll();
             const validationUser = currentUser.filter(user => user.username === newUser.username)
             if (validationUser.length === 0) {
@@ -34,5 +33,7 @@ class UserController {
         }
     }
 }
+
+
 
 module.exports = UserController;
