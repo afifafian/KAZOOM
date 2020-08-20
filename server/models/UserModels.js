@@ -5,7 +5,6 @@ class UserModel {
     static getAll() {
         return Users.find().toArray()
     }
-
     static addOne(newOne) {
         return Users.insertOne(newOne)
     }
