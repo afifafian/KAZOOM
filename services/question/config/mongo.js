@@ -1,5 +1,3 @@
-// const app = require('../app')
-
 const MongoClient = require('mongodb').MongoClient
 
 const dbName = process.env.dbName || 'KazoomTest'
