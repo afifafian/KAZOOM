@@ -18,7 +18,8 @@ const goodQuestion = {
         { ops2: "No", status: false }, 
         { ops3: "Maybe", status: false },
         { ops4: "Not Sure", status: false },
-    ]
+    ],
+    point: 1000
 };
 
 const falseQuestion = {
@@ -28,12 +29,24 @@ const falseQuestion = {
         { ops2: "No", status: false }, 
         { ops3: "Maybe", status: false },
         { ops4: "Not Sure", status: false },
-    ]
+    ],
+    point: 1000
 };
 
 const falseQuestion2 = {
     question: "This is Question?",
-    choices: []
+    choices: [],
+    point: 1000
+};
+
+const falseQuestion3 = {
+    question: "This is Question?",
+    choices: [
+        { ops1: "Yes", status: true }, 
+        { ops2: "No", status: false }, 
+        { ops3: "Maybe", status: false },
+        { ops4: "Not Sure", status: false },
+    ],
 };
 
 describe("Create Question Test", () => {
@@ -68,6 +81,18 @@ describe("Create Question Test", () => {
             const { body, status } = response;
             expect(status).toBe(400);
             expect(body).toHaveProperty("message", "Choices must be filled!")
+            done();
+        } catch (err) {
+            done(err);
+        }
+    })
+    test("Error Validation Question point - should return response json", async(done) => {
+        try {
+            
+            const response = await request(app).post("/questions").send(falseQuestion3)
+            const { body, status } = response;
+            expect(status).toBe(400);
+            expect(body).toHaveProperty("message", "Point must be filled!")
             done();
         } catch (err) {
             done(err);
