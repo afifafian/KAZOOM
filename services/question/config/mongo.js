@@ -1,8 +1,6 @@
-// const app = require('../app')
-
 const MongoClient = require('mongodb').MongoClient
 
-const dbName = process.env.dbName || 'KazoomTest'
+const dbName = process.env.dbName || 'KazoomDev'
 
 // const dbName = process.env.dbName || 'KazoomTest'
 const url = process.env.URL || 'mongodb://127.0.0.1:27017/'
