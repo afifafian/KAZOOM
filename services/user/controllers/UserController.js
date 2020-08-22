@@ -1,4 +1,4 @@
-const UserModel = require('../models/UserModels')
+const UserModel = require('../models/UserModels');
 const bcrpyt = require('bcrypt');
 
 class UserController {
@@ -6,7 +6,7 @@ class UserController {
     static async getAll(req, res) {
         try {
             const User = await UserModel.getAll()
-            return res.status(200).json({ users: User })
+            return res.status(200).json(User)
         } catch (error) {
             return res.status(500).json({ "message": error })
         }
@@ -32,7 +32,7 @@ class UserController {
             return res.status(500).json({ "message": error })
         }
     }
-}
+};
 
 
 

@@ -15,6 +15,9 @@ const typeDefs = gql`
         choices: [Choice]
         point: Int
     }
+    type Message {
+        message: String
+    }
     input QuestionInput {
         question: String!
         choices: String
@@ -26,18 +29,11 @@ const typeDefs = gql`
     }
     extend type Mutation {
         addQuestion(newQuestion: QuestionInput!): Question
+        deleteOneQuestion(id: ID): Message
+        deleteMany: Message
     }
 `;
-// type Collection {
-//     _id: ID
-//     title: String
-//     questions: [Question]
-// }
-// input CollectionInput {
-//     title: String!
-//     questions: [Question]
-// }
-// collections: [Collection]
+
 const resolvers = {
     Query: {
         questions: async () => {
@@ -83,6 +79,38 @@ const resolvers = {
                 return(error)
             }
         },
+        deleteOneQuestion: async (parent, args, contex, info) => {
+            try {
+                const { id } = args;
+                const { data } = await axios({
+                    url: `${questionUrl}/${id}`,
+                    method: "DELETE",
+                });
+                const questions = JSON.parse(await redis.get("questions"));
+                if (questions) {
+                    let notDeleted = questions.filter((question) => question._id !== id)
+                    redis.set("questions", JSON.stringify(notDeleted));
+                }
+                return data;
+            } catch (error) {
+                return error;
+            }
+        },
+        deleteMany: async (parent, args, contex, info) => {
+            try {
+                const { data } = await axios({
+                    url: questionUrl,
+                    method: "DELETE",
+                });
+                const questions = JSON.parse(await redis.get("questions"));
+                if (questions) {
+                    redis.del("questions")
+                }
+                return data;
+            } catch (error) {
+                return error;
+            }
+        }
     }
 };
 
