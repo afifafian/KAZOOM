@@ -24,7 +24,7 @@ const typeDefs = gql`
         
     }
     extend type Mutation {
-        addTemplate(newTemplate: TemplateInput!): Template
+        addTemplate(newTemplate: TemplateInput): Template
         deleteTemplate(id: ID): Messages
     }
 `;

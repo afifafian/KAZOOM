@@ -1,19 +1,19 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { useLocation, useHistory } from 'react-router-dom';
-import { addPoint } from '../Store/action';
+import { playerPoint, questionsData } from '../config/makeVar';
 
 const QuestionPage = () => {
     const location = useLocation()
-    console.log(location, `ini location`)
+    // console.log(location, `ini location`)
     const [count, setCount] = useState(0)
     const [disableButton, setDisableButton] = useState(false)
     const history = useHistory()
-    const dispatch = useDispatch()
-    const { questions } = useSelector((state) => state)
+    const questions = questionsData()
 
     const handleAnswer = (status) => {
-        if (status) dispatch(addPoint(Number(questions[count].point)))   
+        const currentPoint = playerPoint()
+        if (status) playerPoint(currentPoint+questions[count].point) 
         setDisableButton(!disableButton)
     }
 
@@ -32,14 +32,14 @@ const QuestionPage = () => {
             {
                 questions.length > 0 ? (
                     <>
-                        <h3>{questions[count].title}</h3>
+                        <h3>{questions[count].question}</h3>
                         <Row>
                             {
                                 questions[count].choices.map((choice, index) => (
                                     <Col key={index} xs="6" className="mt-2 px-2">
                                         <Button disabled={disableButton}
                                         onClick={() => handleAnswer(choice.status)} 
-                                        style={{width: '200px'}}>{choice.message}</Button>
+                                        style={{width: '200px'}}>{choice.answer}</Button>
                                     </Col>
                                 ))
                             }

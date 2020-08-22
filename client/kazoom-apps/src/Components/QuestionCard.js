@@ -1,11 +1,22 @@
 import React from 'react';
 import { Row, Col, Button } from 'reactstrap';
 import { TiDeleteOutline } from 'react-icons/ti';
+import { DELETE_QUESTION, FETCH_QUESTIONS } from '../config/queries';
+import { useMutation } from '@apollo/client';
+
 
 const QuestionCard = ({data}) => { 
-
+    const [deleteOneQuestion] = useMutation(DELETE_QUESTION, {
+        refetchQueries: [{
+            query: FETCH_QUESTIONS
+        }]
+    })
     const handleDelete = (id) => {
-        console.log(`hello`)
+        deleteOneQuestion({
+            variables: {
+                questionId: id
+            }
+        })
     }
     return (
         <div>
@@ -15,9 +26,9 @@ const QuestionCard = ({data}) => {
             </div>
             <Row>
                 {
-                    data.choices.map((answer, index) => (
+                    data.choices.map((choice, index) => (
                         <Col key={index} xs="6">
-                            <span className="d-inline-block text-truncate" style={{width: '100px'}}>{answer.message}</span>
+                            <span className="d-inline-block text-truncate" style={{width: '100px'}}>{choice.answer}</span>
                         </Col>
                     ))
                 }

@@ -28,7 +28,7 @@ const typeDefs = gql`
         
     }
     extend type Mutation {
-        addQuestion(newQuestion: QuestionInput!): Question
+        addQuestion(newQuestion: QuestionInput): Question
         deleteOneQuestion(id: ID): Message
         deleteMany: Message
     }

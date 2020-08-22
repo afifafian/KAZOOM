@@ -1,21 +1,27 @@
 import React from 'react';
 import { Table, Container, Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { setQuestions } from '../Store/action';
+import { playerPoint, questionsData } from '../config/makeVar';
+import { DELETE_ALL_QUESTION, FETCH_QUESTIONS } from '../config/queries';
+import { useMutation } from '@apollo/client';
 
 const Result = () => {
-    const { playerPoint } = useSelector((state) => state)
-    const dispatch = useDispatch()
     const history = useHistory()
-
+    const [deleteMany] = useMutation(DELETE_ALL_QUESTION, {
+        refetchQueries: [{
+            query: FETCH_QUESTIONS
+        }],
+        onCompleted: () => {
+            questionsData([])
+            playerPoint(0)
+            history.push(`/`)
+        }
+    })
     const handleHome = () => {
-        dispatch(setQuestions([]))
-        history.push(`/`)
+        deleteMany()
     }
     return (
         <div className="d-flex flex-column align-items-center">
-            {/* {JSON.stringify(playerPoint)} */}
             <Container className="mt-5">
                 <h3 className="text-center">Result</h3>
                 <Table>
@@ -28,7 +34,7 @@ const Result = () => {
                     <tbody>
                         <tr>
                         <td>Mahmud</td>
-                        <td>{playerPoint}</td>
+                        <td>{playerPoint()}</td>
                         </tr>
                     </tbody>
                 </Table>

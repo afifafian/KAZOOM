@@ -17,6 +17,7 @@ const CreateQuiz = () => {
         }],
         onCompleted: () => alert(`Add new question!`)
     })
+
     const [title, setTitle] = useState('')
     const [titleQuiz, setTitleQuiz] = useState('')
     const [timer, setTimer] = useState(0)
