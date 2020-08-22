@@ -118,3 +118,51 @@ describe("GET All Question", () => {
         }
     })
 })
+
+describe("DELETE Question", () => {
+    test("Success Delete Question - should return status 200", async (done) => {
+        try {
+            const response2 = await request(app).post("/questions").send(goodQuestion)
+            const { body: bodyAlias, status: statusAlias } = response2
+            const id = "5f4003637e3ca41896d6290c"
+            const response = await request(app).delete(`/questions/${id}`)
+            const { body, status } = response;
+            expect(status).toBe(200);
+            expect(body).toHaveProperty("message", "Successfully Deleted Question!")
+            done();
+        } catch (error) {
+            done(error);
+        }
+    })
+    // test("Failed Delete Question Id Not Found - should return json message", async(done) => {
+    //     try {
+    //         const response2 = await request(app).post("/questions").send(goodQuestion)
+    //         const { body: bodyAlias, status: statusAlias } = response2
+    //         const id = "cercercrcre"
+    //         const response = await request(app).delete(`/questions/${id}`)
+    //         const { body, status } = response;
+    //         console.log(body)
+    //         expect(status).toBe(200);
+    //         expect(body).toHaveProperty("message", "Question with cercercrcre is not found!")
+    //         done();
+    //     } catch (error) {
+    //         done(error);
+    //     }
+    // })
+})
+
+describe("DELETE Many Questions", () => {
+    test("Success Delete All Question - should return status 200", async (done) => {
+        try {
+            const response2 = await request(app).post("/questions").send(goodQuestion)
+            const { body: bodyAlias, status: statusAlias } = response2
+            const response = await request(app).delete(`/questions`)
+            const { body, status } = response;
+            expect(status).toBe(200);
+            expect(body).toHaveProperty("message", "Successfully Deleted Questions!")
+            done();
+        } catch (error) {
+            done(error);
+        }
+    })
+})

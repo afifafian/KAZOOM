@@ -33,6 +33,29 @@ class QuestionController {
             })
         }
     };
+    static deleteMany(req, res) {
+        QuestionModel.deleteAll()
+        .then(data => {
+            return res.status(200).json({message: "Successfully Deleted Questions!"})
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err });
+        })
+    }
+    static deleteQuestion(req, res) {
+        const id = req.params.id
+        QuestionModel.destroy(id)
+        .then(data => {
+            if (data) {
+                return res.status(200).json({message: "Successfully Deleted Question!"})
+            } else if (!data) {
+                return res.status(404).json({message: `Question with ${id} is not found!`})
+            }
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err });
+        })
+    }
 };
 
 module.exports = QuestionController;

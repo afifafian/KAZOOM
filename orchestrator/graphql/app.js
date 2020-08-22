@@ -1,5 +1,7 @@
 const { ApolloServer, makeExecutableSchema } = require("apollo-server");
+const TemplateSchema = require('./schemas/TemplateSchema');
 const QuestionSchema = require('./schemas/QuestionSchema');
+const UserSchema = require('./schemas/UserSchema');
 
 const typeDefs = `
     type Query
@@ -9,10 +11,14 @@ const typeDefs = `
 const schema = makeExecutableSchema({
     typeDefs: [
         typeDefs,
-        QuestionSchema.typeDefs, 
+        TemplateSchema.typeDefs,
+        QuestionSchema.typeDefs,
+        UserSchema.typeDefs,
     ],
     resolvers: [
+        TemplateSchema.resolvers,
         QuestionSchema.resolvers,
+        UserSchema.resolvers,
     ]
 })
 
