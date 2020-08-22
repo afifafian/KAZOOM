@@ -11,6 +11,10 @@ const initState = {
 
 const kahootReducer = (state = initState, action) => {
     switch(action.type) {
+        case "RESET_POINT":
+            return {
+                ...state, playerPoint: 0
+            }
         case "ADD_POINT":
             return {
                 ...state, playerPoint: state.playerPoint+action.payload

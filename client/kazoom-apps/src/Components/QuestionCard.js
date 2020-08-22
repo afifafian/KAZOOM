@@ -1,19 +1,17 @@
 import React from 'react';
 import { Row, Col, Button } from 'reactstrap';
 import { TiDeleteOutline } from 'react-icons/ti';
-import { useDispatch } from 'react-redux';
-import { deleteQuestion } from '../Store/action';
 
-const QuestionCard = ({data, index}) => { 
-    const dispatch = useDispatch()   
+const QuestionCard = ({data}) => { 
+
     const handleDelete = (id) => {
-        dispatch(deleteQuestion(id))
+        console.log(`hello`)
     }
     return (
         <div>
             <div className="d-flex">
-                <h5 className="d-inline-block text-truncate" style={{width: '200px'}}>{data.title}</h5>
-                <Button onClick={() => handleDelete(data.id)} color="danger" size="sm"><TiDeleteOutline style={{fontSize: '20px'}} /></Button>
+                <h5 className="d-inline-block text-truncate" style={{width: '200px'}}>{data.question}</h5>
+                <Button onClick={() => handleDelete(data._id)} color="danger" size="sm"><TiDeleteOutline style={{fontSize: '20px'}} /></Button>
             </div>
             <Row>
                 {

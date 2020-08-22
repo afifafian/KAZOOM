@@ -1,8 +1,10 @@
 import React from 'react';
 import './App.css';
 import { Home, CreateQuiz, Host, PlayGate, QuestionPage, Result } from './Pages';
-import { Provider } from 'react-redux';
-import store from './Store';
+// import { Provider } from 'react-redux';
+// import store from './Store';
+import { ApolloProvider } from '@apollo/client';
+import client from './config';
 import {
   BrowserRouter as Router,
   Route,
@@ -12,7 +14,7 @@ import {
 function App() {
   return (
     <>
-      <Provider store={store}>
+      <ApolloProvider client={client}>
         <Router>
           <Switch>
             <Route exact path="/" component={Home}/>
@@ -23,7 +25,7 @@ function App() {
             <Route exact path="/result" component={Result}/>
           </Switch>
         </Router>
-      </Provider>
+      </ApolloProvider>
     </>
   );
 }

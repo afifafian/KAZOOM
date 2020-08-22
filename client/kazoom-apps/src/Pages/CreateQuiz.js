@@ -1,53 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import { QuestionCard, Collection } from '../Components';
+import { QuestionCard } from '../Components';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { addQuestion, addCollection, setGameId } from '../Store/action';
+import { useQuery, useMutation } from '@apollo/client';
+import { FETCH_QUESTIONS, ADD_QUESTION } from '../config/queries';
+import { gameId, quizTitle, addTimer, questionsData } from '../config/makeVar';
 import { v4 as uuidv4 } from 'uuid';
 
 
 const CreateQuiz = () => {
     const history = useHistory()
-    const dispatch = useDispatch()
-    const { questions, collections } = useSelector((state) => state)
+    const {loading:loadQuestion, error:errQuestion, data:questionRes} = useQuery(FETCH_QUESTIONS)
+    const [addQuestion] = useMutation(ADD_QUESTION, {
+        refetchQueries: [{
+            query: FETCH_QUESTIONS
+        }],
+        onCompleted: () => alert(`Add new question!`)
+    })
     const [title, setTitle] = useState('')
     const [titleQuiz, setTitleQuiz] = useState('')
+    const [timer, setTimer] = useState(0)
     const [saveCollection, setSaveCollection] = useState(false) 
-    const [point, setPoint] = useState(0)
-    const [idTemp, setIdTemp] = useState(1)
-    const [idColl, setIdColl] = useState(1)
+    const [pointQuestion, setPointQuestion] = useState(0)
     const [answer1, setAnswer1] = useState({
-        message: '',
+        answer: '',
         status: false,
     })
     const [answer2, setAnswer2] = useState({
-        message: '',
+        answer: '',
         status: false,
     })
     const [answer3, setAnswer3] = useState({
-        message: '',
+        answer: '',
         status: false,
     })
     const [answer4, setAnswer4] = useState({
-        message: '',
+        answer: '',
         status: false,
     })
     const handleGame = () => {
-        // console.log(saveCollection)
-        // console.log(questions)
-        let collection = {
-            id: idColl,
-            title: titleQuiz,
-            questions,
-        }
-        // console.log(collection)
-        if (saveCollection) {
-            dispatch(addCollection(collection))
-        }
-        const gameId = uuidv4()
-        setIdColl(idColl+1)
-        dispatch(setGameId(gameId))
+        // let collection = {
+        //     id: idColl,
+        //     title: titleQuiz,
+        //     questions,
+        // }
+        // if (saveCollection) {
+        //     dispatch(addCollection(collection))
+        // }
+        const idPlay = uuidv4()
+        gameId(idPlay)
+        quizTitle(titleQuiz)
+        addTimer(Number(timer))
+        questionsData(questionRes.questions)
         history.push(`/room`)
     }
     const handleChange1 = (e) => {
@@ -76,16 +80,15 @@ const CreateQuiz = () => {
     }
     const handleClick = () => {
         let newQuestion = {
-            id: idTemp,
-            title,
-            point,
-            choices: [
-                answer1, answer2, answer3, answer4
-            ]
-        }
-        // console.log(newQuestion)
-        dispatch(addQuestion(newQuestion))
-        setIdTemp(idTemp+1)
+            question: title,
+            choices: JSON.stringify([answer1, answer2, answer3, answer4]),
+            point: Number(pointQuestion)
+        } 
+        addQuestion({
+            variables: {
+                inputQuestion: newQuestion
+            }
+        })
     }
     return (
         <>
@@ -94,14 +97,15 @@ const CreateQuiz = () => {
                     <div style={{maxHeight: '300px', overflow: 'auto'}}>
                         <h4 className="text-center">List Questions</h4>
                         {
-                            questions.map((question, index) => <QuestionCard key={index} data={question} index={index}/>)
+                            loadQuestion ? <h2>Loading..</h2> : errQuestion ? <h2>Error 404</h2> :
+                            questionRes.questions.map((question) => <QuestionCard key={question._id} data={question}/>)
                         }
                     </div>
                     <div className="mt-3" style={{maxHeight: '200px', overflow: 'auto'}}>
                         <h4 className="text-center">Collection</h4 >
-                        {
+                        {/* {
                             collections.map((collection) => <Collection key={collection.id} data={collection}/>)
-                        }
+                        } */}
                     </div>
                 </Col>
                 <Col xs="8">
@@ -112,28 +116,29 @@ const CreateQuiz = () => {
                                 <Input value={title} onChange={(e) => setTitle(e.target.value)} type="text" placeholder="mengapa bulan.." />
                             </FormGroup>
                             <FormGroup className="d-flex flex-column">
-                                <Col xs="4" className="d-flex">
+                                <Col xs="6" className="ml-3 d-flex justify-content-around">
                                     <Label className="align-self-center mr-3">Point</Label> 
-                                    <Input value={point} onChange={(e) => setPoint(e.target.value)} type="number" placeholder="Range 0 - 100" min="0"/>
+                                    <Input value={pointQuestion} onChange={(e) => setPointQuestion(e.target.value)} type="number" placeholder="Range 0 - 100" min="0"/>
                                 </Col>
                             </FormGroup>
                             <FormGroup>
+                                <small>Please check the correct answer!</small>
                                 <Row>
                                     <Col xs="6" className="mt-2 d-flex">
                                         <Input onChange={(e) => handleChange1(e)} name="status" type="checkbox" checked={answer1.status} />{' '}
-                                        <Input className="ml-1" value={answer1.message} onChange={(e) => handleChange1(e)} name="message" type="text" placeholder="mengapa bulan.." />
+                                        <Input className="ml-1" value={answer1.answer} onChange={(e) => handleChange1(e)} name="answer" type="text" placeholder="mengapa bulan.." />
                                     </Col>
                                     <Col xs="6" className="mt-2 d-flex">
                                         <Input name="status" onChange={(e) => handleChange2(e)} type="checkbox" checked={answer2.status} />{' '}
-                                        <Input className="ml-1" value={answer2.message} onChange={(e) => handleChange2(e)} name="message" type="text" placeholder="mengapa bulan.." />
+                                        <Input className="ml-1" value={answer2.answer} onChange={(e) => handleChange2(e)} name="answer" type="text" placeholder="mengapa bulan.." />
                                     </Col>
                                     <Col xs="6" className="mt-2 d-flex">
                                         <Input checked={answer3.status} onChange={(e) => handleChange3(e)} name="status" type="checkbox" />{' '}
-                                        <Input className="ml-1" value={answer3.message} onChange={(e) => handleChange3(e)} name="message" type="text" placeholder="mengapa bulan.." />
+                                        <Input className="ml-1" value={answer3.answer} onChange={(e) => handleChange3(e)} name="answer" type="text" placeholder="mengapa bulan.." />
                                     </Col>
                                     <Col xs="6" className="mt-2 d-flex">
                                         <Input checked={answer4.status} onChange={(e) => handleChange4(e)} name="status" type="checkbox" />{' '}
-                                        <Input className="ml-1" value={answer4.message} onChange={(e) => handleChange4(e)} name="message" type="text" placeholder="mengapa bulan.." />
+                                        <Input className="ml-1" value={answer4.answer} onChange={(e) => handleChange4(e)} name="answer" type="text" placeholder="mengapa bulan.." />
                                     </Col>
                                 </Row>
                             </FormGroup>
@@ -141,7 +146,9 @@ const CreateQuiz = () => {
                         </Form>
                         <Form className="d-flex justify-content-center">
                             <Col xs="5" className="mt-5 d-flex flex-column align-items-center">
-                                <Label className="px-4">Quiz Title</Label>
+                                <Label className="align-self-center mr-3 tex">Time Limit</Label> 
+                                <Input value={timer} onChange={(e) => setTimer(e.target.value)} type="number" placeholder="time in seconds" min="0"/>
+                                <Label className="px-4 mt-3">Quiz Title</Label>
                                 <Input onChange={(e) => setTitleQuiz(e.target.value)} type="text" placeholder="apaya.."/> 
                                 <Label check className="mt-2">
                                     <small> <Input checked={saveCollection} onChange={(e) => setSaveCollection(e.target.checked)} name="collection" type="checkbox" />{' '}Save questions to collection</small>

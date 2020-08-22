@@ -53,3 +53,9 @@ export const addPoint = (point) => {
         payload: point
     }
 }
+
+export const resetPoint = () => {
+    return {
+        type: "RESET_POINT"
+    }
+}

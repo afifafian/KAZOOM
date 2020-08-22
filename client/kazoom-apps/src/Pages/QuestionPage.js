@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import { addPoint } from '../Store/action';
 
 const QuestionPage = () => {
