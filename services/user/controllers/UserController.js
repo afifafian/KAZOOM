@@ -16,9 +16,12 @@ class UserController {
         try {
             if (req.body.username == "" || !req.body.username) {
                 return res.status(400).json({ "message": "username cannot empty" })
+            } else if (req.body.password === "" || !req.body.password) {
+                return res.status(400).json({ "message": "password cannot empty" })
             }
             const newUser = {
-                username: req.body.username
+                username: req.body.username,
+                password: bcrpyt.hashSync(req.body.password, 10),
             }
             const currentUser = await UserModel.getAll();
             const validationUser = currentUser.filter(user => user.username === newUser.username)

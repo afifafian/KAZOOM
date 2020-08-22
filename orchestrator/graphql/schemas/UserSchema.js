@@ -9,9 +9,11 @@ const typeDefs = gql`
     type User {
         _id: ID
         username: String
+        password: String
     }
     input UserInput {
         username: String!
+        password: String!
     }
     extend type Query {
         users: [User]
@@ -45,8 +47,8 @@ const resolvers = {
     Mutation: {
         addUser: async (parent, args, contex, info) => {
             try {
-                const { username } = args.newUser;
-                const newData = { username };
+                const { username, password } = args.newUser;
+                const newData = { username, password };
                 const { data } = await axios({
                     url: registerUrl,
                     method: "POST",
