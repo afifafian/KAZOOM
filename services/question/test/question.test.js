@@ -22,33 +22,6 @@ const goodQuestion = {
     point: 1000
 };
 
-const falseQuestion = {
-    question: "",
-    choices: [
-        { ops1: "Yes", status: true }, 
-        { ops2: "No", status: false }, 
-        { ops3: "Maybe", status: false },
-        { ops4: "Not Sure", status: false },
-    ],
-    point: 1000
-};
-
-const falseQuestion2 = {
-    question: "This is Question?",
-    choices: [],
-    point: 1000
-};
-
-const falseQuestion3 = {
-    question: "This is Question?",
-    choices: [
-        { ops1: "Yes", status: true }, 
-        { ops2: "No", status: false }, 
-        { ops3: "Maybe", status: false },
-        { ops4: "Not Sure", status: false },
-    ],
-};
-
 describe("Create Question Test", () => {
     test("Success Create New Question - should return response with 201", async(done) => {
         try {
@@ -65,6 +38,16 @@ describe("Create Question Test", () => {
     })
     test("Error Validation Question name - should return response json", async(done) => {
         try {
+            const falseQuestion = {
+                question: "",
+                choices: [
+                    { ops1: "Yes", status: true }, 
+                    { ops2: "No", status: false }, 
+                    { ops3: "Maybe", status: false },
+                    { ops4: "Not Sure", status: false },
+                ],
+                point: 1000
+            };
             const response = await request(app).post("/questions").send(falseQuestion);
             const { body, status } = response;
             expect(status).toBe(400);
@@ -76,7 +59,11 @@ describe("Create Question Test", () => {
     })
     test("Error Validation Question choices - should return response json", async(done) => {
         try {
-            
+            const falseQuestion2 = {
+                question: "This is Question?",
+                choices: [],
+                point: 1000
+            };
             const response = await request(app).post("/questions").send(falseQuestion2)
             const { body, status } = response;
             expect(status).toBe(400);
@@ -88,7 +75,15 @@ describe("Create Question Test", () => {
     })
     test("Error Validation Question point - should return response json", async(done) => {
         try {
-            
+            const falseQuestion3 = {
+                question: "This is Question?",
+                choices: [
+                    { ops1: "Yes", status: true }, 
+                    { ops2: "No", status: false }, 
+                    { ops3: "Maybe", status: false },
+                    { ops4: "Not Sure", status: false },
+                ],
+            };
             const response = await request(app).post("/questions").send(falseQuestion3)
             const { body, status } = response;
             expect(status).toBe(400);
