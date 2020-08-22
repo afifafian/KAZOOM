@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const questionRoutes = require('./questionRoutes');
-    // const kazoom = require('./kazoomRoutes')
+const templateRoutes = require('./templateRouter');
 
 router.get('/', (req, res) => {
-    res.send("Let's make a Question")
+    res.send("Let's play the game!")
 })
 router.use('/questions', questionRoutes)
-    // router.use('/kazooms', kazoom)
+router.use('/template', templateRoutes)
 
 module.exports = router;
