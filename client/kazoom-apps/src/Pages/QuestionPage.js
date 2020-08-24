@@ -134,11 +134,11 @@ const QuestionPage = () => {
                                 }
                             </ul>
                         </div>
+                        <Button onClick={() => handleNextQuestion()} className="my-3">Next Question</Button>
                     </>
                     )
                 }
             </div>
-            <Button onClick={() => handleNextQuestion()} className="my-3">Next Question</Button>
         </Container>
     )
 }

@@ -44,16 +44,10 @@ const io = socketio(http)
 
 let rooms = []
 let gameRoom;
-let idGame;
 let correctStud = []
 let falseStud = []
 
 io.on('connection', socket => {
-    socket.on('idGame', id => {
-        console.log(id, `ini idnya masuk`)
-        idGame = id
-    })
-    
     socket.on('gameSetting', addRoom => {
         rooms.push(addRoom)
         gameRoom = addRoom
@@ -86,24 +80,6 @@ io.on('connection', socket => {
         } else {
             io.emit('alert-full')
         }
-
-        // let index = rooms.findIndex(i => i.room === room)
-
-        // socket.join(room, () => {
-        //     console.log(socket.rooms, `ini rooms socket`)
-        //     let flag = false
-        //     rooms[index].players.forEach(player => {
-        //         if (player === player.user) {
-        //             flag = true
-        //         }
-        //     });
-
-        //     if (flag === false) {
-        //         rooms[index].players.push(player.user)
-        //     } 
-        //     console.log(rooms[index], `ini yg dipanggil`)
-        //     io.emit('room', rooms[index])
-        // })
     })
 
     socket.on('goPlay', () => {
@@ -159,6 +135,8 @@ io.on('connection', socket => {
     socket.on('goToResult', () => {
         const finalResults = gameRoom.players
         // console.log(`ini di broadcast`)
+        correctStud = []
+        falseStud = []
         io.emit('goToResult', finalResults)
     })
 })
