@@ -4,17 +4,20 @@ const http = require("http");
 const app = express();
 const server = http.createServer(app);
 const socket = require("socket.io");
+const cors = require('cors')
 const io = socket(server);
 
 const users = {};
 
-const socketToRoom = {};
+const rooms = {};
+
+app.use(cors());
 
 io.on('connection', socket => {
     socket.on("join room", roomID => {
         if (users[roomID]) {
             const length = users[roomID].length;
-            if (length === 10) {
+            if (length === 14) {
                 socket.emit("room full");
                 return;
             }
@@ -22,7 +25,7 @@ io.on('connection', socket => {
         } else {
             users[roomID] = [socket.id];
         }
-        socketToRoom[socket.id] = roomID;
+        rooms[socket.id] = roomID;
         const usersInThisRoom = users[roomID].filter(id => id !== socket.id);
 
         socket.emit("all users", usersInThisRoom);
@@ -37,7 +40,7 @@ io.on('connection', socket => {
     });
 
     socket.on('disconnect', () => {
-        const roomID = socketToRoom[socket.id];
+        const roomID = rooms[socket.id];
         let room = users[roomID];
         if (room) {
             room = room.filter(id => id !== socket.id);
