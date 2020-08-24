@@ -58,10 +58,10 @@ const resolvers = {
     Mutation: {
         addQuestion: async (parent, args, contex, info) => {
             try {
-                console.log("masuk?")
+                // console.log("masuk?")
                 const { question, choices: choice2, point } = args.newQuestion;
                 const choices = JSON.parse(choice2)
-                console.log(choices, "ini choices parsed")
+                // console.log(choices, "ini choices parsed")
                 const newData = { question, choices, point };
                 const { data } = await axios({
                     url: questionUrl,
@@ -75,7 +75,7 @@ const resolvers = {
                 }
                 return data;
             } catch (error) {
-                console.log(error)
+                // console.log(error)
                 return(error)
             }
         },

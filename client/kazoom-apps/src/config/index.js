@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { questionsData, playerPoint, collectionsData, gameId, playerName, quizTitle, addTimer } from './makeVar';
+import { questionsData, playerPoints, gameSettingLocal, collectionsData, gameId, playersJoin, quizTitle, addTimer } from './makeVar';
 
 const client = new ApolloClient({
     uri: 'http://localhost:4000/',
@@ -7,6 +7,11 @@ const client = new ApolloClient({
         typePolicies: {
             Query: {
                 fields: {
+                    gameSettingLocal: {
+                        read: () => {
+                            return gameSettingLocal()
+                        }
+                    },
                     questionsCache: {
                         read: () => {
                             return questionsData()
@@ -14,7 +19,7 @@ const client = new ApolloClient({
                     },
                     playerPointCache: {
                         read: () => {
-                            return playerPoint()
+                            return playerPoints()
                         }
                     },
                     collectionsCache: {
@@ -27,9 +32,9 @@ const client = new ApolloClient({
                             return gameId()
                         }
                     },
-                    playerNameCache: {
+                    playersJoinCache: {
                         read: () => {
-                            return playerName()
+                            return playersJoin()
                         }
                     },
                     quizTitleCache: {

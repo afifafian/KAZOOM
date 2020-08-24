@@ -3,23 +3,25 @@ import { Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { QuestionCard } from '../Components';
 import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import { FETCH_QUESTIONS, ADD_QUESTION } from '../config/queries';
-import { gameId, quizTitle, addTimer, questionsData } from '../config/makeVar';
-import { v4 as uuidv4 } from 'uuid';
+import { FETCH_QUESTIONS, ADD_QUESTION, DELETE_ALL_QUESTION } from '../config/queries';
+import { gameSettingLocal } from '../config/makeVar';
+import random from 'randomatic';
+import io from 'socket.io-client';
+const PORT = 'http://localhost:4000/'
 
 
 const CreateQuiz = () => {
+    const socket = io(PORT)
     const history = useHistory()
-    const {loading:loadQuestion, error:errQuestion, data:questionRes} = useQuery(FETCH_QUESTIONS)
-    const [addQuestion] = useMutation(ADD_QUESTION, {
-        refetchQueries: [{
-            query: FETCH_QUESTIONS
-        }],
-        onCompleted: () => alert(`Add new question!`)
-    })
-
+    const location = {
+        pathname: '/room',
+        state: {
+            from: 'teacher'
+        }
+    }
     const [title, setTitle] = useState('')
     const [titleQuiz, setTitleQuiz] = useState('')
+    const [idGame, setIdGame] = useState('')
     const [timer, setTimer] = useState(0)
     const [saveCollection, setSaveCollection] = useState(false) 
     const [pointQuestion, setPointQuestion] = useState(0)
@@ -39,21 +41,41 @@ const CreateQuiz = () => {
         answer: '',
         status: false,
     })
+    const {loading:loadQuestion, error:errQuestion, data:questionRes} = useQuery(FETCH_QUESTIONS)
+    const [addQuestion] = useMutation(ADD_QUESTION, {
+        refetchQueries: [{
+            query: FETCH_QUESTIONS
+        }]
+    })
+    
+    useEffect(() => {
+        const id = random('Aa0', 5)
+        setIdGame(id)
+        socket.emit('idGame', id)
+        socket.on('next-page', (gameSett) => {
+            gameSettingLocal(gameSett)
+            history.push(location)
+        })
+    }, [])
+
     const handleGame = () => {
-        // let collection = {
-        //     id: idColl,
-        //     title: titleQuiz,
-        //     questions,
-        // }
-        // if (saveCollection) {
-        //     dispatch(addCollection(collection))
-        // }
-        const idPlay = uuidv4()
-        gameId(idPlay)
-        quizTitle(titleQuiz)
-        addTimer(Number(timer))
-        questionsData(questionRes.questions)
-        history.push(`/room`)
+        let count = 1
+        const gameRoom = {
+            room: idGame,
+            title: titleQuiz,
+            time: Number(timer),
+            players: [{
+                id: count,
+                user: 'Teacher',
+                room: idGame,
+            }],
+            questions: questionRes.questions
+        }
+        count++
+        socket.emit('gameSetting', gameRoom)
+        setTitleQuiz(``)
+        setTimer(0)
+        setIdGame(``)
     }
     const handleChange1 = (e) => {
         const input = e.target

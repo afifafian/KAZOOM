@@ -1,28 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { setPlayerName } from '../Store/action';
+import io from 'socket.io-client';
+const PORT = 'http://localhost:4000/'
 
 const PlayGate = () => {
+    const socket = io(PORT)
     const [inputId, setInputId] = useState(``)
-    const [player, setPlayer] = useState('')
+    const [player, setPlayer] = useState(``)
     const history = useHistory()
-    const dispatch = useDispatch()
-    const { gameId } = useSelector((state) => state)
     const location = {
-        pathname: '/question',
+        pathname: '/room',
         state: {
             from: 'player'
         }
     }
-    const handleClick = () => {
-        if (inputId === gameId) {
-            dispatch(setPlayerName(player))
+    useEffect(() => {
+        socket.on('alert-samePlayer', () => {
+            alert(`username already taken!`)
+        })
+
+        socket.on('go-waiting', () => {
             history.push(location)
-        } else {
-            alert(`id is invalid!`)
-        }
+        })
+
+        socket.on('alert-full', () => {
+            alert(`already full!`)
+        })
+        return () => socket.disconnect();
+    }, [])
+    const handleClick = () => {
+        localStorage.setItem('player', player)
+        socket.emit('joinRoom', {
+            room: inputId,
+            name: player,
+            point: 0
+        })
     }
     return (
         <>

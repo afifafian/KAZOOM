@@ -1,10 +1,10 @@
 import React from 'react';
 import { Col } from 'reactstrap';
 
-const Player = () => {
+const Player = ({data}) => {
     return(
         <Col xs="3" className="my-3">
-            <span>Mahmud</span>
+            <span>{data.user}</span>
         </Col>
     )
 }

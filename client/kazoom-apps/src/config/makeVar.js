@@ -4,12 +4,14 @@ export const questionsData = makeVar([])
 
 export const collectionsData = makeVar([])
 
-export const playerPoint = makeVar(0)
+export const playerPoints = makeVar([])
 
 export const gameId = makeVar('')
 
 export const quizTitle = makeVar('')
 
-export const playerName = makeVar('')
+export const playersJoin = makeVar([])
 
 export const addTimer = makeVar(0)
+
+export const gameSettingLocal = makeVar({})

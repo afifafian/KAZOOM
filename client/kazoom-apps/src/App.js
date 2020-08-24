@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Home, CreateQuiz, Host, PlayGate, QuestionPage, Result } from './Pages';
+import { Home, CreateQuiz, Host, PlayGate, QuestionPage, Result, ResultTeacher } from './Pages';
 // import { Provider } from 'react-redux';
 // import store from './Store';
 import { ApolloProvider } from '@apollo/client';
@@ -19,10 +19,11 @@ function App() {
           <Switch>
             <Route exact path="/" component={Home}/>
             <Route exact path="/create" component={CreateQuiz}/>
-            <Route exact path="/room" component={Host}/>
             <Route exact path="/player" component={PlayGate}/>
+            <Route exact path="/room" component={Host}/>
             <Route exact path="/question" component={QuestionPage}/>
-            <Route exact path="/result" component={Result}/>
+            <Route exact path="/student" component={Result}/>
+            <Route exact path="/teacher" component={ResultTeacher}/>
           </Switch>
         </Router>
       </ApolloProvider>
