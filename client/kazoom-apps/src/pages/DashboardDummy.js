@@ -1,14 +1,16 @@
 import React from "react";
 import auth from "./auth";
+import { withRouter } from "react-router-dom";
 
-export default () => {
+export default (props) => {
     return (
         <>
             <h1>ini dashboard</h1>
             <button
-                onclick={() => {
+                onClick={() => {
                     auth.logout(() => {
-                        this.history.push("/login");
+                        localStorage.clear();
+                        props.history.push("/login");
                     });
                 }}
             >

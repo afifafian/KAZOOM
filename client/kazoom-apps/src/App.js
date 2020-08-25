@@ -23,11 +23,8 @@ function App() {
                 <Switch>
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/login" component={Login} />
-                    <ProtectedRoute
-                        exact
-                        path="/dashboard"
-                        component={Dashboard}
-                    />
+                    <ProtectedRoute exact path="/" component={Dashboard} />
+                    <Route path="*" component={() => "404 NOT FOUND"} />
                 </Switch>
             </Router>
         </ApolloProvider>

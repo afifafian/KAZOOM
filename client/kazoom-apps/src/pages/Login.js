@@ -37,10 +37,9 @@ export default (props) => {
 
     useEffect(() => {
         if (data) {
-            localStorage.setItem("token", data.loginUser.token);
-
             auth.login(() => {
-                props.history.push("/dashboard");
+                localStorage.setItem("token", data.loginUser.token);
+                props.history.push("/");
             });
 
             console.log(`>>>>>>`, data);
