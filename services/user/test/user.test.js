@@ -87,6 +87,31 @@ describe("User register test", () => {
 
 })
 
+describe("User Login test", () => {
+    test("Success Login - should return response 200", async(done) => {
+        try {
+            const response = await request(app).post("/users/login").send(newUser)
+            const { body, status } = response;
+            expect(status).toBe(200);
+            expect(body).toHaveProperty("token");
+            done();
+        } catch (err) {
+            done(err)
+        }
+    });
+    test("Failed Login - should return response 404", async(done) => {
+        try {
+            const response = await request(app).post("/users/login").send({username: "andi", password: "ohoy"})
+            const { body, status } = response;
+            expect(status).toBe(404);
+            expect(body).toHaveProperty("message", "Invalid username or password");
+            done();
+        } catch (err) {
+            done(err)
+        }
+    })
+})
+
 describe("User findAll", () => {
     test("responds with 200", async(done) => {
         try {

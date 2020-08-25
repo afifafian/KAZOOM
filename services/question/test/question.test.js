@@ -119,7 +119,7 @@ describe("DELETE Question", () => {
         try {
             const response2 = await request(app).post("/questions").send(goodQuestion)
             const { body: bodyAlias, status: statusAlias } = response2
-            const id = "5f4003637e3ca41896d6290c"
+            const id = bodyAlias._id
             const response = await request(app).delete(`/questions/${id}`)
             const { body, status } = response;
             expect(status).toBe(200);
@@ -129,21 +129,20 @@ describe("DELETE Question", () => {
             done(error);
         }
     })
-    // test("Failed Delete Question Id Not Found - should return json message", async(done) => {
-    //     try {
-    //         const response2 = await request(app).post("/questions").send(goodQuestion)
-    //         const { body: bodyAlias, status: statusAlias } = response2
-    //         const id = "cercercrcre"
-    //         const response = await request(app).delete(`/questions/${id}`)
-    //         const { body, status } = response;
-    //         console.log(body)
-    //         expect(status).toBe(200);
-    //         expect(body).toHaveProperty("message", "Question with cercercrcre is not found!")
-    //         done();
-    //     } catch (error) {
-    //         done(error);
-    //     }
-    // })
+    test("Failed Delete Question Id Not Found - should return json message", async(done) => {
+        try {
+            const response2 = await request(app).post("/questions").send(goodQuestion)
+            const { body: bodyAlias, status: statusAlias } = response2
+            const id = "45crcrxzrwzz"
+            const response = await request(app).delete(`/questions/${id}`)
+            const { body, status } = response;
+            expect(status).toBe(404);
+            expect(body).toHaveProperty("message", "Id Question is not found!")
+            done();
+        } catch (error) {
+            done(error);
+        }
+    })
 })
 
 describe("DELETE Many Questions", () => {

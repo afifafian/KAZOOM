@@ -8,6 +8,9 @@ class UserModel {
     static addOne(newOne) {
         return Users.insertOne(newOne)
     }
+    static findOne(value) {
+        return Users.findOne(value);
+    }
 }
 
 module.exports = UserModel
