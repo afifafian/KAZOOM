@@ -4,12 +4,16 @@ const Redis = require("ioredis");
 const redis = new Redis();
 const leaderboardsUrl = "http://localhost:3002/users/leaderboards";
 const registerUrl = "http://localhost:3002/users/register";
+const loginUrl = "http://localhost:3002/users/login";
 
 const typeDefs = gql`
     type User {
         _id: ID
         username: String
         password: String
+    }
+    type Token {
+        token: String
     }
     input UserInput {
         username: String!
@@ -19,6 +23,7 @@ const typeDefs = gql`
         users: [User]
     }
     extend type Mutation {
+        loginUser(user: UserInput): Token
         addUser(newUser: UserInput!): User
     }
 `;
@@ -45,6 +50,22 @@ const resolvers = {
         },
     },
     Mutation: {
+        loginUser: async (parent, args, context, info) => {
+            try {
+                const { username, password } = args.user;
+                const loginData = { username, password };
+                const { data } = await axios({
+                    url: loginUrl,
+                    method: "POST",
+                    data: loginData,
+                });
+                if (data) {
+                    return data;
+                }
+            } catch (error) {
+                return error;
+            }
+        },
         addUser: async (parent, args, contex, info) => {
             try {
                 const { username, password } = args.newUser;

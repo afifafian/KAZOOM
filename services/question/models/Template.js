@@ -1,5 +1,5 @@
 const db = require('../config/mongo');
-const Template = db.collection('Template')
+const Template = db.collection('Templates')
 const { ObjectID } = require('mongodb');
 
 class TemplateModel {

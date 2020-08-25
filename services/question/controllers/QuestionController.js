@@ -44,7 +44,9 @@ class QuestionController {
         const id = req.params.id
         QuestionModel.destroy(id)
         .then(data => {
-            if (data) {
+            if (data.value === null) {
+                return res.status(404).json({ message: "Id Question is not found!" })
+            } else {
                 return res.status(200).json({message: "Successfully Deleted Question!"})
             }
         })
