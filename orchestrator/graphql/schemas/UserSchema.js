@@ -4,12 +4,16 @@ const Redis = require("ioredis");
 const redis = new Redis();
 const leaderboardsUrl = "http://localhost:3002/users/leaderboards";
 const registerUrl = "http://localhost:3002/users/register";
+const loginUrl = "http://localhost:3002/users/login";
 
 const typeDefs = gql`
     type User {
         _id: ID
         username: String
         password: String
+    }
+    type Token {
+        token: String
     }
     input UserInput {
         username: String!
@@ -19,7 +23,8 @@ const typeDefs = gql`
         users: [User]
     }
     extend type Mutation {
-        addUser(newUser: UserInput!): User
+        loginUser(user: UserInput): Token
+        addUser(newUser: UserInput): User
     }
 `;
 
@@ -31,7 +36,7 @@ const resolvers = {
                 if (users) {
                     return users;
                 } else {
-                    const {data} = await axios({
+                    const { data } = await axios({
                         url: leaderboardsUrl,
                         method: "GET",
                     });
@@ -61,11 +66,34 @@ const resolvers = {
                 }
                 return data;
             } catch (error) {
-                console.log(error)
-                return(error)
+                console.log(error);
+                return error;
             }
         },
-    }
+        loginUser: async (parent, args, context, info) => {
+            try {
+                const { username, password } = args.user;
+                const loginData = { username, password };
+                console.log(loginData);
+
+                const { data } = await axios({
+                    url: loginUrl,
+                    method: "POST",
+                    data: loginData,
+                });
+
+                console.log(`>>>>>`, username, password);
+                console.log(`>>>>`, data);
+
+                if (data) {
+                    return data;
+                }
+            } catch (error) {
+                console.log(error);
+                return error;
+            }
+        },
+    },
 };
 
 module.exports = {
