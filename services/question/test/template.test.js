@@ -16,23 +16,11 @@ const inputTemplate = {
     questions: [
         {
             question: "apakah salah itu benar?",
-            choices: [
-                {
-                    answer: "Benar",
-                    status: true
-                },
-                {
-                    answer: "Salah",
-                    status: false
-                },
-                {
-                    answer: "Gatau",
-                    status: false
-                },
-                {
-                    answer: "Bebas",
-                    status: false
-                }
+            choices: 
+            [ { answer: "Benar", status: true },
+              { answer: "Salah", status: false },
+              { answer: "Gatau", status: false },
+              { answer: "Bebas", status: false }
             ],
             point: 1000
         },
@@ -45,23 +33,11 @@ const wrongInputTemplate = {
     questions: [
         {
             question: "apakah salah itu benar?",
-            choices: [
-                {
-                    answer: "Benar",
-                    status: true
-                },
-                {
-                    answer: "Salah",
-                    status: false
-                },
-                {
-                    answer: "Gatau",
-                    status: false
-                },
-                {
-                    answer: "Bebas",
-                    status: false
-                }
+            choices: 
+            [ { answer: "Benar", status: true },
+              { answer: "Salah", status: false },
+              { answer: "Gatau", status: false },
+              { answer: "Bebas", status: false }
             ],
             point: 1000
         },
@@ -80,23 +56,11 @@ const wrongInputTemplate3 = {
     questions: [
         {
             question: "apakah salah itu benar?",
-            choices: [
-                {
-                    answer: "Benar",
-                    status: true
-                },
-                {
-                    answer: "Salah",
-                    status: false
-                },
-                {
-                    answer: "Gatau",
-                    status: false
-                },
-                {
-                    answer: "Bebas",
-                    status: false
-                }
+            choices: 
+            [ { answer: "Benar", status: true },
+              { answer: "Salah", status: false },
+              { answer: "Gatau", status: false },
+              { answer: "Bebas", status: false }
             ],
             point: 1000
         },
@@ -132,7 +96,6 @@ describe("Create Template Test", () => {
     })
     test("Error Validation Template questions - should return response json", async(done) => {
         try {
-            
             const response = await request(app).post("/template").send(wrongInputTemplate2)
             const { body, status } = response;
             expect(status).toBe(400);

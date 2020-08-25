@@ -1,6 +1,7 @@
 const { gql } = require("apollo-server");
 const axios = require("axios");
 const Redis = require("ioredis");
+const jwt = require("jsonwebtoken");
 const redis = new Redis();
 const templateUrl = "http://localhost:3001/template";
 
@@ -17,7 +18,7 @@ const typeDefs = gql`
     input TemplateInput {
         title: String!
         questions: String
-        userId: String!
+        token: String!
     }
     extend type Query {
         templates: [Template]
@@ -53,7 +54,10 @@ const resolvers = {
     Mutation: {
         addTemplate: async (parent, args, contex, info) => {
             try {
-                const { title, questions: questTempt, userId } = args.newTemplate;
+                const { title, questions: questTempt, token } = args.newTemplate;
+                let decode = jwt.verify(token, "jwtSECRET");
+                console.log(decode)
+                let userId = decode._id
                 const questions = JSON.parse(questTempt)
                 const newData = { title, questions, userId };
                 const { data } = await axios({

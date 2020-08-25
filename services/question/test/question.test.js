@@ -22,33 +22,6 @@ const goodQuestion = {
     point: 1000
 };
 
-const falseQuestion = {
-    question: "",
-    choices: [
-        { ops1: "Yes", status: true }, 
-        { ops2: "No", status: false }, 
-        { ops3: "Maybe", status: false },
-        { ops4: "Not Sure", status: false },
-    ],
-    point: 1000
-};
-
-const falseQuestion2 = {
-    question: "This is Question?",
-    choices: [],
-    point: 1000
-};
-
-const falseQuestion3 = {
-    question: "This is Question?",
-    choices: [
-        { ops1: "Yes", status: true }, 
-        { ops2: "No", status: false }, 
-        { ops3: "Maybe", status: false },
-        { ops4: "Not Sure", status: false },
-    ],
-};
-
 describe("Create Question Test", () => {
     test("Success Create New Question - should return response with 201", async(done) => {
         try {
@@ -65,6 +38,16 @@ describe("Create Question Test", () => {
     })
     test("Error Validation Question name - should return response json", async(done) => {
         try {
+            const falseQuestion = {
+                question: "",
+                choices: [
+                    { ops1: "Yes", status: true }, 
+                    { ops2: "No", status: false }, 
+                    { ops3: "Maybe", status: false },
+                    { ops4: "Not Sure", status: false },
+                ],
+                point: 1000
+            };
             const response = await request(app).post("/questions").send(falseQuestion);
             const { body, status } = response;
             expect(status).toBe(400);
@@ -76,7 +59,11 @@ describe("Create Question Test", () => {
     })
     test("Error Validation Question choices - should return response json", async(done) => {
         try {
-            
+            const falseQuestion2 = {
+                question: "This is Question?",
+                choices: [],
+                point: 1000
+            };
             const response = await request(app).post("/questions").send(falseQuestion2)
             const { body, status } = response;
             expect(status).toBe(400);
@@ -88,7 +75,15 @@ describe("Create Question Test", () => {
     })
     test("Error Validation Question point - should return response json", async(done) => {
         try {
-            
+            const falseQuestion3 = {
+                question: "This is Question?",
+                choices: [
+                    { ops1: "Yes", status: true }, 
+                    { ops2: "No", status: false }, 
+                    { ops3: "Maybe", status: false },
+                    { ops4: "Not Sure", status: false },
+                ],
+            };
             const response = await request(app).post("/questions").send(falseQuestion3)
             const { body, status } = response;
             expect(status).toBe(400);
@@ -124,7 +119,7 @@ describe("DELETE Question", () => {
         try {
             const response2 = await request(app).post("/questions").send(goodQuestion)
             const { body: bodyAlias, status: statusAlias } = response2
-            const id = "5f4003637e3ca41896d6290c"
+            const id = bodyAlias._id
             const response = await request(app).delete(`/questions/${id}`)
             const { body, status } = response;
             expect(status).toBe(200);
@@ -134,21 +129,20 @@ describe("DELETE Question", () => {
             done(error);
         }
     })
-    // test("Failed Delete Question Id Not Found - should return json message", async(done) => {
-    //     try {
-    //         const response2 = await request(app).post("/questions").send(goodQuestion)
-    //         const { body: bodyAlias, status: statusAlias } = response2
-    //         const id = "cercercrcre"
-    //         const response = await request(app).delete(`/questions/${id}`)
-    //         const { body, status } = response;
-    //         console.log(body)
-    //         expect(status).toBe(200);
-    //         expect(body).toHaveProperty("message", "Question with cercercrcre is not found!")
-    //         done();
-    //     } catch (error) {
-    //         done(error);
-    //     }
-    // })
+    test("Failed Delete Question Id Not Found - should return json message", async(done) => {
+        try {
+            const response2 = await request(app).post("/questions").send(goodQuestion)
+            const { body: bodyAlias, status: statusAlias } = response2
+            const id = "45crcrxzrwzz"
+            const response = await request(app).delete(`/questions/${id}`)
+            const { body, status } = response;
+            expect(status).toBe(404);
+            expect(body).toHaveProperty("message", "Id Question is not found!")
+            done();
+        } catch (error) {
+            done(error);
+        }
+    })
 })
 
 describe("DELETE Many Questions", () => {
