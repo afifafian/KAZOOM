@@ -1,38 +1,125 @@
-.App {
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Peralta', cursive;
+  /* background: #BD632F; */
+}
+
+.home {
+  min-height: 700px;
+  padding-top: 10%;
+}
+
+.styleLogo {
+  font-family: 'Faster One', cursive;
+  font-size: 140px;
+  transform: rotate(-5deg);
+  color: #2D3047;
+  text-shadow: 6px 6px rgb(184, 179, 179);
+}
+
+.buttonGame {
+  background: rgb(231, 203, 78);
+  margin: 10px 0px;
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  padding: 5px;
+  color: black;
+  text-decoration: none;
   text-align: center;
+  font-size: 25px;
+  font-family: 'Peralta', cursive;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.buttonGame:hover {
+  text-decoration: none;
+  color: black;
+  width: 210px;
+  height: 60px;
+  padding: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.formPlay {
+  width: 400px;
+  height: 350px;
+  margin: 0px auto;
+  background: #D0C88E;
+  font-size: 20px;
+  padding: 50px 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.buttonLogin {
+  background: rgb(231, 203, 78);
+  margin: 10px 0px;
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  padding: 5px;
+  color: black;
+  text-decoration: none;
+  text-align: center;
+  font-size: 25px;
+  font-family: 'Peralta', cursive;
+  box-shadow: 0 4px 8px 0 rgba(77, 77, 77, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.bodyCreate {
+  min-height: 700px;
+}
+
+.leftCol {
+  background: #2E3532;
+  margin-top: 20px;
+  margin-left: 30px;
+  border-radius: 10px;
   color: white;
+  box-shadow: 0 4px 8px 0 rgba(77, 77, 77, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.App-link {
-  color: #61dafb;
+.rightCol {
+  background: wheat;
+  margin: 20px 30px;
+  border-radius: 10px;
+  min-height: 500px;
+  box-shadow: 0 4px 8px 0 rgba(77, 77, 77, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.questionBox {
+  background: #D0C88E;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.answerBox {
+  padding: 3px 10px;
+  border-radius: 10px;
+  color: white;
+  font-size: 12px;
+}
+
+.smallText {
+  background: rgb(224, 219, 219);
+  padding: 5px;
+  color: rgb(70, 69, 69);
+}
+
+.quizForm {
+  background: #D2D4C8;
+  margin: 20px 100px 0px 100px;
+  border-radius: 10px;
+}
+
+.questionForm {
+  background: #D2D4C8;
+  margin: 20px 30px 0px 30px;
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.quizForm {
+  margin: 30px;
 }
