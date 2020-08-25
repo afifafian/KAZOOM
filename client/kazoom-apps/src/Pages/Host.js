@@ -15,53 +15,64 @@ const Host = () => {
     const [title, setTitle] = useState('')
 
     useEffect(() => {
-        // console.log(`testing`)
+        //setting waiting room after teacher created quiz
         const setting = gameSettingLocal()
         questionsData(setting.questions)
         setPlayers(setting.players)
         setRoomId(setting.room)
         setTitle(setting.title)
 
+        //updating waiting room everytime player joins
         socket.on('roomGame', roomDetail => {
             setPlayers(roomDetail.players)
-            setRoomId(roomDetail.room)
-            setTitle(roomDetail.title)
         })
-        socket.on('goPlay', () => {
-            history.push(`/question`)
+
+        //when teacher confirms, student can be moved to next page
+        socket.on('goPlay', (id) => {
+            history.push(`/room/${id}/questions`)
         })
+
         return () => socket.disconnect();
     }, [])
 
     const handlePlay = () => {
         socket.emit('goPlay')
         history.push({
-            pathname: '/question',
+            pathname: `/room/${roomId}/questions`,
             state: {
                 from: 'teacher'
             }
         })
     }
-    if (state.from === 'player') return (
-        <>
-            <h3 className="text-center mt-5">Welcome {localStorage.player}</h3>
-            <h4 className="text-center mt-3">Waiting for game to play...</h4>
-        </>
-    )
+
     return (
-        <div className="d-flex flex-column align-items-center">
-            <h2>{title}</h2>
-            <h3 className="mt-5 text-center">ID: {roomId}</h3>
-            <Container>
-                <Row>
+        <>
+            <div>
                     {
-                        players.map((player) => <Player key={player.id} data={player} />)
+                        state.from === 'player' ? (
+                            <>
+                                <h3 className="text-center mt-5">Welcome {localStorage.player}</h3>
+                                <h4 className="text-center mt-3">Waiting for game to play...</h4>
+                            </>
+                        )
+                        : (
+                            <div className="d-flex flex-column align-items-center">
+                                <h2>{title}</h2>
+                                <h3 className="mt-5 text-center">ID: {roomId}</h3>
+                                <Container>
+                                    <Row>
+                                        {
+                                            players.map((player) => <Player key={player.id} data={player} />)
+                                        }
+                                    </Row>
+                                </Container>
+                                <Button onClick={() => handlePlay()} >Play!</Button>
+                            </div>
+                        )
                     }
-                </Row>
-            </Container>
-            <Button onClick={() => handlePlay()} >Play!</Button>
-        </div>
-    )
+            </div>
+        </>
+    )    
 }
 
 export default Host

@@ -19,20 +19,20 @@ const QuestionCard = ({data}) => {
         })
     }
     return (
-        <div>
-            <div className="d-flex">
-                <h5 className="d-inline-block text-truncate" style={{width: '200px'}}>{data.question}</h5>
-                <Button onClick={() => handleDelete(data._id)} color="danger" size="sm"><TiDeleteOutline style={{fontSize: '20px'}} /></Button>
+        <div className="questionBox d-flex">
+            <div className="d-flex flex-column px-3 py-2">
+                <h5 className="d-inline-block text-wrap" style={{width: '300px', color: 'black', fontSize: '18px'}}>{data.question}</h5>
+                <Row>
+                    {
+                        data.choices.map((choice, index) => (
+                            <Col key={index} xs="6">
+                                <span className="d-inline-block text-truncate answerBox" style={{width: '130px', background: choice.status ? '#306B34' : '#C8553D'}}>{choice.answer}</span>
+                            </Col>
+                        ))
+                    }
+                </Row>
             </div>
-            <Row>
-                {
-                    data.choices.map((choice, index) => (
-                        <Col key={index} xs="6">
-                            <span className="d-inline-block text-truncate" style={{width: '100px'}}>{choice.answer}</span>
-                        </Col>
-                    ))
-                }
-            </Row>
+            <Button onClick={() => handleDelete(data._id)} color="danger" size="sm"><TiDeleteOutline style={{fontSize: '20px'}} /></Button>
         </div>    
     )
 }

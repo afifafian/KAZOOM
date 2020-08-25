@@ -9,6 +9,7 @@ const QuestionPage = () => {
     const {state} = useLocation()
     const socket = io(PORT)
     const [count, setCount] = useState(0)
+    const [countQuest, setCountQuest] = useState(1)
     const [time, setTime] = useState(null)
     const [questions, setQuestions] = useState([])
     const [correctStudent, setCorrectStud] = useState([])
@@ -18,18 +19,26 @@ const QuestionPage = () => {
     const history = useHistory()
 
     useEffect(() => {
-        socket.on('playGame', (quest) => {
-            setQuestions(quest)
+
+        //when teacher click start button, the questions set.  
+        socket.on('playGame', ({quests, initPlayers}) => {
+            const initialPlayers = initPlayers.filter(player => player.type === 'student')
+            setQuestions(quests)
             setCorrectStud([])
             setFalseStud([])    
+            setDisableButton(false)
+            setCount(0)
             setStart(!start)
         })
+
+        //when teacher move to the next question
         socket.on('nextQuestion', () => {
-            setCount(count+1)
             setDisableButton(false)
             setCorrectStud([])
             setFalseStud([])
         })
+
+        //check student's answer
         socket.on('studentResult', ({correctStud, falseStud, players}) => {
             setCorrectStud(correctStud)
             setFalseStud(falseStud)
@@ -42,16 +51,21 @@ const QuestionPage = () => {
             });
             playerPoints(playersRes)
         })
+
+        //timer is set when game start
         socket.on('timerStart', timer => {
             setTime(timer)
         })
-        socket.on('goToResult', () => {
+
+        //when the question is done, move to result page
+        socket.on('goToResult', (id) => {
             if (localStorage.player) {
-                history.push('/student')
+                history.push(`/room/${id}/results/student`)
             } else {
-                history.push('/teacher')
+                history.push(`/room/${id}/results/teacher`)
             }
         })
+
     }, [])
 
     const handleAnswer = (status) => {
@@ -64,6 +78,8 @@ const QuestionPage = () => {
     const handleNextQuestion = () => {
         if (count < questions.length-1) {
             socket.emit('nextQuestion')
+            setCountQuest(countQuest+1)
+            setCount(count+1)
             socket.emit('timer')
         } else {
             socket.emit('goToResult')
@@ -93,7 +109,7 @@ const QuestionPage = () => {
 
     return (
         <Container className="text-center mt-5">
-            <h2>Question {count+1}</h2>
+            <h2>Question {countQuest}</h2>
             <h3>Time {time}</h3>
             {
                 questions.length > 0 ? (

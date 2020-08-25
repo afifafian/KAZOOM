@@ -8,7 +8,7 @@ import { useMutation } from '@apollo/client';
 const ResultTeacher = () => {
     const history = useHistory()
     const results = playerPoints()
-    const pureResult = results.filter(result => result.user !== 'Teacher')
+    const pureResult = results.filter(result => result.type !== 'teacher')
     const [deleteMany] = useMutation(DELETE_ALL_QUESTION, {
         refetchQueries: [{
             query: FETCH_QUESTIONS
@@ -16,12 +16,15 @@ const ResultTeacher = () => {
         onCompleted: () => {
             questionsData([])
             playerPoints([])
-            history.push(`/`)
+            localStorage.clear()
+            history.push({
+                pathname: `/`,
+                state: 'result'
+            })
         }
     })
 
     const handleHome = () => {
-        localStorage.clear()
         deleteMany()
     }
 

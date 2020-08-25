@@ -12,17 +12,19 @@ const Result = () => {
             query: FETCH_QUESTIONS
         }],
         onCompleted: () => {
+            localStorage.clear()
             questionsData([])
             playerPoints([])
-            history.push(`/`)
+            history.push({
+                pathname: `/`,
+                state: 'result'
+            })
         }
     })
 
     const handleHome = () => {
-        localStorage.clear()
         deleteMany()
     }
-
         return (
             <div className="d-flex flex-column align-items-center">
                 <Container className="mt-5">
