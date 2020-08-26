@@ -5,11 +5,13 @@ import { Link, useHistory } from 'react-router-dom';
 import withReactContent from 'sweetalert2-react-content';
 import { LOGIN_USER } from '../config/queries';
 import { useMutation } from '@apollo/client';
-
+import useSound from 'use-sound';
+import clickSound from '../assets/sounds/click_button.mp3';
 const MySwal = withReactContent(Swal)
 
 const LoginPage = (props) => {
     // const history = useHistory()
+    const [playButton] = useSound(clickSound)
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     // const [wantLogin, setWantLogin] = useState(false)
@@ -24,6 +26,7 @@ const LoginPage = (props) => {
     }, [data])
 
     const handleClick = () => {
+        playButton()
         if (!userName) return MySwal.fire({
             position: 'center',
             icon: 'error',
@@ -49,21 +52,14 @@ const LoginPage = (props) => {
         })
     }
 
-    // if (!wantLogin) return (
-    //     <>
-    //         <div style={{minHeight: '100vh'}}>
-    //             <div className="d-flex flex-column align-items-center">
-    //             <img style={{display: 'block', margin: '50px auto'}} width="400" src='https://i.ibb.co/4N7Rf8g/Logo-Kazoom.png' alt="logo"/>
-    //                 <button className="buttonLogin mt-4" type="button" onClick={() => history.push('/create')}>Create Quiz</button>
-    //                 <button className="buttonLogin mb-3" type="button" onClick={() => setWantLogin(true)}>Login</button>
-    //                 <small className="smallText mt-3" >Login to save your quiz into your own collections!</small>
-    //             </div>
-    //         </div>
-    //     </>
-    // )
-
     return (
         <>
+            <audio controls autoPlay="true" hidden >
+                <source 
+                src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" 
+                type="audio/ogg" >
+                </source>
+            </audio>
             <div style={{minHeight: '100vh', paddingTop: '10px'}}>
                 <img style={{display: 'block', margin: '30px auto'}} width="250" src='https://i.ibb.co/4N7Rf8g/Logo-Kazoom.png' alt="logo"/>
                 <div className="formPlay" style={{height: '400px'}}>

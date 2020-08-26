@@ -3,9 +3,15 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { playerPoints } from '../config/makeVar';
 import io from 'socket.io-client';
+import useSound from 'use-sound';
+import nextQuestion from '../assets/sounds/next_question.mp3';
+import finalResult from '../assets/sounds/result_page.mp3';
 const PORT = 'http://localhost:4000/';
 
+
 const QuestionPage = () => {
+    const [playQuestion] = useSound(nextQuestion)
+    const [playResult] = useSound(finalResult)
     const {state} = useLocation()
     const socket = io(PORT)
     const [count, setCount] = useState(0)
@@ -33,6 +39,7 @@ const QuestionPage = () => {
 
         //when teacher move to the next question
         socket.on('nextQuestion', () => {
+            playQuestion()
             setDisableButton(false)
             setCorrectStud([])
             setFalseStud([])
@@ -82,6 +89,7 @@ const QuestionPage = () => {
             setCount(count+1)
             socket.emit('timer')
         } else {
+            playResult()
             socket.emit('goToResult')
         }
     }
@@ -118,9 +126,9 @@ const QuestionPage = () => {
                         <Row>
                             {
                                 questions[count].choices.map((choice, index) => (
-                                    <Col key={index} xs="6" className="mt-2 px-2">
+                                    <Col key={index} xs="6" className="mt-2">
                                         <button className="buttonAnswer" type="button" disabled={disableButton}
-                                        onClick={() => handleAnswer(choice.status)} 
+                                        onClick={() => handleAnswer(choice.status)}
                                         style={{width: '200px', background: disableButton && '#4AOT1'}}>{choice.answer}</button>
                                     </Col>
                                 ))

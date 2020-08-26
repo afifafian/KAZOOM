@@ -4,11 +4,13 @@ import { useHistory } from 'react-router-dom';
 import io from 'socket.io-client';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-
+import useSound from 'use-sound';
+import clickSound from '../assets/sounds/click_button.mp3';
 const MySwal = withReactContent(Swal)
 const PORT = 'http://localhost:4000/'
 
 const PlayGate = () => {
+    const [playButton] = useSound(clickSound)
     const socket = io(PORT)
     const socketRef = useRef();
     socketRef.current = io.connect("http://localhost:4000");
@@ -71,6 +73,7 @@ const PlayGate = () => {
     }, [])
 
     const handleClick = () => {
+        playButton()
         if (!inputId) return MySwal.fire({
             position: 'center',
             icon: 'error',

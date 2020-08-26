@@ -6,13 +6,16 @@ import { useQuery, useMutation } from '@apollo/client';
 import { FETCH_QUESTIONS, ADD_QUESTION, ADD_COLLECTION, FETCH_COLLECTIONS } from '../config/queries';
 import { gameSettingLocal, questionsData, collectionsData } from '../config/makeVar';
 import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import useSound from 'use-sound';
+import clickSound from '../assets/sounds/click_button.mp3';
+import withReactContent from 'sweetalert2-react-content';
 import random from 'randomatic';
 import io from 'socket.io-client';
 const MySwal = withReactContent(Swal)
 const PORT = 'http://localhost:4000/'
 
 const CreateQuiz = () => {
+    const [playButton] = useSound(clickSound)
     const socket = io(PORT)
     const history = useHistory()
     const [title, setTitle] = useState('')
@@ -105,7 +108,7 @@ const CreateQuiz = () => {
     }
 
     const handleGame = () => {
-        
+        playButton()
         if (saveCollection) {
             if (!localStorage.access_token) {
                 return MySwal.fire({
@@ -187,6 +190,7 @@ const CreateQuiz = () => {
         setAnswer4({...answer4, [name]: value})
     }
     const handleClick = () => {
+        playButton()
         const answers = [answer1, answer2, answer3, answer4]
         const trueAnswers = answers.filter(answer => answer.status)
         if (!title) return MySwal.fire({

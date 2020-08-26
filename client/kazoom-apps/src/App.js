@@ -22,7 +22,7 @@ function App() {
     <>
       <ApolloProvider client={client}>
         <Router>
-          <div style={{background: 'url(https://i.ibb.co/qMrZt0q/pattern-1.png)', backgroundSize: 'contain'}}>
+          <div id="background" style={{minHeight: '100vh'}}>
             <Switch>
               <Route exact path="/" component={Home}/>
               <Route exact path="/login" component={Login}/>

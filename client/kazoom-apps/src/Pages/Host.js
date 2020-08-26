@@ -67,7 +67,8 @@ const Host = () => {
                                     </Row>
                                 </Container>
                                 <button type="button" className="buttonLogin" onClick={() => handlePlay()} >Play!</button>
-                                <h3 className="mt-5 text-center" ><i>"Isi adalah kosong, kosong adalah isi."</i></h3>
+                                <h4 className="mt-5 text-center" ><i>"Isi adalah kosong, kosong adalah isi."</i></h4>
+                                <h5 className="mt-2 text-center" ><i>-Tom Sam Chong (Kera Sakti 1996)</i></h5>
                             </div>
                         )
                     }

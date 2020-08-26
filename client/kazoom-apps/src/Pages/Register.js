@@ -5,10 +5,13 @@ import { Link, useHistory } from 'react-router-dom';
 import withReactContent from 'sweetalert2-react-content';
 import { ADD_USER, GET_USERS } from '../config/queries';
 import { useMutation } from '@apollo/client';
+import useSound from 'use-sound';
+import clickSound from '../assets/sounds/click_button.mp3';
 
 const MySwal = withReactContent(Swal)
 
 const RegisterPage = () => {
+    const [playButton] = useSound(clickSound)
     const history = useHistory()
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
@@ -29,6 +32,7 @@ const RegisterPage = () => {
     })
 
     const handleClick = () => {
+        playButton()
         if (!userName) return MySwal.fire({
             position: 'center',
             icon: 'error',

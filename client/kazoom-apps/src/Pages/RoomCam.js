@@ -122,7 +122,7 @@ const Room = (props) => {
                         );
                     })}
                 </Col>
-                <Col>
+                <Col style={{padding: '0px'}}>
                     <Switch>
                         <Route exact path={`${url}`} component={Host}/>
                         <Route exact path={`${url}/questions`} component={QuestionPage}/>
