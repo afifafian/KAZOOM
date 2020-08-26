@@ -1,14 +1,10 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Peralta', cursive;
+  font-family: 'Roboto', sans-serif;
   /* background: #BD632F; */
 }
 
-.home {
-  min-height: 700px;
-  padding-top: 10%;
-}
 
 .styleLogo {
   font-family: 'Faster One', cursive;
@@ -19,69 +15,110 @@
 }
 
 .buttonGame {
-  background: rgb(231, 203, 78);
+  background: #ea5455;
   margin: 10px 0px;
   width: 200px;
   height: 50px;
   border-radius: 10px;
   padding: 5px;
-  color: black;
+  color: white;
+  font-weight: bold;
   text-decoration: none;
   text-align: center;
   font-size: 25px;
-  font-family: 'Peralta', cursive;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-family: 'Roboto', sans-serif;
+  box-shadow: -9px 9px 0px 1px rgba(255,255,255,1);
 }
 
 .buttonGame:hover {
   text-decoration: none;
-  color: black;
   width: 210px;
-  height: 60px;
   padding: 10px;
+  height: 60px;
+  color: white;
+}
+
+.tableResultTeacher {
+  background: rgba(224, 226, 224, 0.1); 
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.tableResult {
+  background: rgba(224, 226, 224, 0.1); 
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#background {
+  background-color: #0d3555;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpolygon fill='%23000' fill-opacity='.1' points='120 0 120 60 90 30 60 0 0 0 0 0 60 60 0 120 60 120 90 90 120 60 120 0'/%3E%3C/svg%3E");
+}
+
+.landingPage {  
+  text-align: center;
+  margin-top: 200px;
+  background: rgba(224, 226, 224, 0.1); 
+  height: 30vh;
+  padding-top: 30px;
+  border-radius: 10px;
 }
 
 .formPlay {
   width: 400px;
   height: 350px;
   margin: 0px auto;
-  background: #D0C88E;
+  background: #e5e5e5;
   font-size: 20px;
-  padding: 50px 30px;
+  padding: 30px 30px;
   border-radius: 20px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .buttonLogin {
-  background: rgb(231, 203, 78);
+  background: #ea5455;
   margin: 10px 0px;
   width: 200px;
   height: 50px;
   border-radius: 10px;
   padding: 5px;
-  color: black;
+  color: white;
+  font-weight: bold;
   text-decoration: none;
   text-align: center;
   font-size: 25px;
-  font-family: 'Peralta', cursive;
-  box-shadow: 0 4px 8px 0 rgba(77, 77, 77, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-family: 'Roboto', sans-serif;
+  box-shadow: -9px 9px 0px 1px rgba(255,255,255,1);
 }
 
-.bodyCreate {
-  min-height: 700px;
+.buttonAnswer {
+  background: #145374;
+  margin: 10px 0px;
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  padding: 5px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  box-shadow: -9px 9px 0px 1px rgba(255,255,255,1);
 }
 
 .leftCol {
-  background: #2E3532;
+  background: #f6f5f5;
   margin-top: 20px;
-  margin-left: 30px;
+  margin-left: 40px;
   border-radius: 10px;
-  color: white;
+  max-height: 113vh;
+  color: black;
   box-shadow: 0 4px 8px 0 rgba(77, 77, 77, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .rightCol {
-  background: wheat;
+  background: #e5e5e5;
   margin: 20px 30px;
   border-radius: 10px;
   min-height: 500px;
@@ -89,9 +126,10 @@
 }
 
 .questionBox {
-  background: #D0C88E;
+  background: #e5e5e5;
   margin-top: 10px;
   border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(77, 77, 77, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
 }
 
 .answerBox {
@@ -108,13 +146,13 @@
 }
 
 .quizForm {
-  background: #D2D4C8;
+  background: #f6f5f5;
   margin: 20px 100px 0px 100px;
   border-radius: 10px;
 }
 
 .questionForm {
-  background: #D2D4C8;
+  background: #f6f5f5;
   margin: 20px 30px 0px 30px;
   padding: 40px;
   border-radius: 10px;
@@ -122,4 +160,11 @@
 
 .quizForm {
   margin: 30px;
+}
+
+.answerResult {
+  min-height: 150px;
+  min-width: 200px;
+  padding: 10px;
+  border-radius: 10px;
 }

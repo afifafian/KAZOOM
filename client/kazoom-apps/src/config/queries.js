@@ -15,6 +15,25 @@ export const FETCH_QUESTIONS = gql`
     }
 `
 
+export const FETCH_COLLECTIONS = gql`
+    query FetchTemplates {
+        templates {
+            _id
+            username
+            title
+            questions {
+                _id
+                question
+                choices {
+                    answer
+                    status
+                }
+                point
+            }
+        }
+    }
+`
+
 export const ADD_QUESTION = gql`
     mutation AddQuestion($inputQuestion: QuestionInput) {
         addQuestion(newQuestion: $inputQuestion) {
@@ -40,20 +59,45 @@ export const DELETE_ALL_QUESTION = gql`
     }
 `
 
-export const ADD_TEMPLATE = gql`
-    mutation AddTemplate($inputTemplate: TemplateInput) {
-        addTemplate(newTemplate: $inputTemplate) {
+export const ADD_USER = gql`
+    mutation RegisterUser($inputUser: UserInput) {
+        addUser(newUser: $inputUser) {
             _id
-            title
-            userId
+            username
         }
     }
 `
 
-export const DELETE_TEMPLATE = gql`
-    mutation DeleteTemplate($templateId: ID) {
-        deleteTemplate(id: $templateId) {
-            message
+export const LOGIN_USER = gql`
+    mutation LoginUser($inputUser: UserInput) {
+        loginUser(user: $inputUser) {
+            token
+        }
+    }
+`
+export const GET_USERS = gql`
+    query {
+        users {
+            _id
+            username
+        }
+    }
+`
+ 
+export const ADD_COLLECTION = gql`
+    mutation AddTemplate($inputTemplate: TemplateInput) {
+        addTemplate(newTemplate: $inputTemplate) {
+            _id
+            title
+            username
+        }
+    }
+`
+
+export const DELETE_COLLECTION = gql`
+    mutation DeleteTemplate($inputId: ID) {
+        deleteTemplate(id: $inputId) {
+            messages
         }
     }
 `

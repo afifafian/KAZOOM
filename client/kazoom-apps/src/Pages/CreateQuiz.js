@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import { QuestionCard } from '../Components';
-import { useHistory } from 'react-router-dom';
+import { QuestionCard, Collection} from '../Components';
+import { useHistory, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import { FETCH_QUESTIONS, ADD_QUESTION } from '../config/queries';
-import { gameSettingLocal } from '../config/makeVar';
+import { FETCH_QUESTIONS, ADD_QUESTION, ADD_COLLECTION, FETCH_COLLECTIONS } from '../config/queries';
+import { gameSettingLocal, questionsData, collectionsData } from '../config/makeVar';
+import Swal from 'sweetalert2'
+import useSound from 'use-sound';
+import clickSound from '../assets/sounds/click_button.mp3';
+import withReactContent from 'sweetalert2-react-content';
 import random from 'randomatic';
 import io from 'socket.io-client';
+const MySwal = withReactContent(Swal)
 const PORT = 'http://localhost:4000/'
 
 const CreateQuiz = () => {
+    const [playButton] = useSound(clickSound)
     const socket = io(PORT)
     const history = useHistory()
     const [title, setTitle] = useState('')
     const [titleQuiz, setTitleQuiz] = useState('')
     const [idGame, setIdGame] = useState('')
     const [timer, setTimer] = useState('')
+    const [questions, setQuestions] = useState([])
+    // const questions = questionsData()
+    const [collections, setCollections] = useState([])
     const [saveCollection, setSaveCollection] = useState(false) 
     const [pointQuestion, setPointQuestion] = useState('')
     const [answer1, setAnswer1] = useState({
@@ -35,6 +44,7 @@ const CreateQuiz = () => {
         status: false,
     })
     const {loading:loadQuestion, error:errQuestion, data:questionRes} = useQuery(FETCH_QUESTIONS)
+    const {loading:loadTemp, error:errTemp, data:questionTemp} = useQuery(FETCH_COLLECTIONS)
     const [addQuestion] = useMutation(ADD_QUESTION, {
         refetchQueries: [{
             query: FETCH_QUESTIONS
@@ -48,6 +58,32 @@ const CreateQuiz = () => {
             setPointQuestion(0)
         }
     })
+    const [addTemplate] = useMutation(ADD_COLLECTION, {
+        refetchQueries: [{
+            query: FETCH_COLLECTIONS
+        }],
+        onCompleted: () => {
+            setSaveCollection(false)
+        }
+    })
+
+    useEffect(() => {
+        if (questionRes) {
+            questionsData(questionRes.questions)
+            setQuestions(questionsData())
+        } else {
+            questionsData([])
+        }
+    },[questionRes])
+
+    useEffect(() => {
+        if (questionTemp) {
+            const userName = localStorage.username
+            const filteredTemp = questionTemp.templates.filter(temp => temp.username === userName)
+            collectionsData(filteredTemp)
+            setCollections(collectionsData())
+        }
+    },[questionTemp])
     
     useEffect(() => {
         //generate ID Room
@@ -67,9 +103,49 @@ const CreateQuiz = () => {
         })
     }, [])
 
+    const addQuestionsColl = (data) => {
+        setQuestions(data)
+    }
+
     const handleGame = () => {
-        if (!timer || Number(timer) === 0) return alert(`Please set timer for the game!`)
-        if (!titleQuiz) return alert('Please fill the title of this quiz!')
+        playButton()
+        if (saveCollection) {
+            if (!localStorage.access_token) {
+                return MySwal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: "Please login to save questions to collection!",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            } else {
+                const collection = {
+                    title: titleQuiz,
+                    questions: JSON.stringify(questions),
+                    token: localStorage.access_token
+                }
+                addTemplate({
+                    variables: {
+                        inputTemplate: collection 
+                    }
+                })
+            }
+        } 
+        
+        if (!timer || Number(timer) === 0) return MySwal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: "Please set timer for this quiz!",
+            showConfirmButton: false,
+            timer: 1500
+        })
+        if (!titleQuiz) return MySwal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: "Please set title for this quiz!",
+            showConfirmButton: false,
+            timer: 1500
+        })
         let count = 1
         const gameRoom = {
             room: idGame,
@@ -81,9 +157,8 @@ const CreateQuiz = () => {
                 room: idGame,
                 type: 'teacher'
             }],
-            questions: questionRes.questions
+            questions: questions
         }
-        console.log(gameRoom, `ini gameroom`)
         count++
         socket.emit('gameSetting', gameRoom)
         setTitleQuiz(``)
@@ -115,11 +190,30 @@ const CreateQuiz = () => {
         setAnswer4({...answer4, [name]: value})
     }
     const handleClick = () => {
+        playButton()
         const answers = [answer1, answer2, answer3, answer4]
         const trueAnswers = answers.filter(answer => answer.status)
-        if (!title) return alert ('Please fill the title!')
-        if (!pointQuestion || Number(pointQuestion) === 0) return alert(`Please fill the point of this question!`)
-        if (trueAnswers.length < 1) return alert(`Choose at least one correct answer!`)
+        if (!title) return MySwal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: "Please fill the question's title!",
+            showConfirmButton: false,
+            timer: 1500
+        })
+        if (!pointQuestion || Number(pointQuestion) === 0) return MySwal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: "Please set point to this question!",
+            showConfirmButton: false,
+            timer: 1500
+        })
+        if (trueAnswers.length < 1) return MySwal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: "Choose at least one correct answer!",
+            showConfirmButton: false,
+            timer: 1500
+        })
         let newQuestion = {
             question: title,
             choices: JSON.stringify([answer1, answer2, answer3, answer4]),
@@ -136,17 +230,19 @@ const CreateQuiz = () => {
             <Row>
                 <Col xs="4" className="leftCol">
                     <h4 className="text-center mt-3">List Questions</h4>
-                    <div style={{maxHeight: '350px', overflow: 'auto', padding: '10px'}}>
+                    <div style={{maxHeight: '330px', minHeight: '330px',overflow: 'auto', padding: '10px'}}>
                         {
-                            loadQuestion ? <h2>Loading..</h2> : errQuestion ? <h2>Error 404</h2> :
-                            questionRes.questions.map((question) => <QuestionCard key={question._id} data={question}/>)
+                            questions.length < 1 ? <h5 className="text-center" style={{color: 'grey'}}>No Question.</h5> :
+                            questions.map((question) => <QuestionCard key={question._id} data={question}/>)
                         }
                     </div>
-                    <div className="mt-3" style={{maxHeight: '250px', overflow: 'auto'}}>
+                    <hr/>
+                    <div className="mt-3" style={{maxHeight: '250px', minHeight: '200px', overflow: 'auto'}}>
                         <h4 className="text-center">Collection</h4 >
-                        {/* {
-                            collections.map((collection) => <Collection key={collection.id} data={collection}/>)
-                        } */}
+                        {
+                            collections.length < 1 ? <h5 className="text-center mt-3" style={{color: 'grey'}}>Check the save collection button to save your questions here.</h5> :
+                            collections.map((collection) => <Collection addCollection={(data) => addQuestionsColl(data)} key={collection._id} data={collection}/>)
+                        }
                     </div>
                 </Col>
                 <Col xs="7" className="ml-4">
@@ -184,7 +280,7 @@ const CreateQuiz = () => {
                                     </Col>
                                 </Row>
                             </FormGroup>
-                            <Button style={{background: 'rgb(231, 203, 78)', color: 'black'}} block onClick={() => handleClick()}>Add Question</Button>
+                            <Button style={{fontWeight: 'bold', background: '#ee6f57', color: 'white', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}} block onClick={() => handleClick()}>Add Question</Button>
                         </Form>
                         <Form className="quizForm d-flex justify-content-center">
                             <Col xs="5" className="mt-4 d-flex flex-column align-items-center">
@@ -196,7 +292,7 @@ const CreateQuiz = () => {
                                 <Label check className="mt-2">
                                     <small> <Input checked={saveCollection} onChange={(e) => setSaveCollection(e.target.checked)} name="collection" type="checkbox" />{' '}Save questions to collection</small>
                                 </Label>
-                                <Button onClick={() => handleGame()} className="my-4" style={{background: 'rgb(231, 203, 78)', color: 'black'}}>Create Quiz</Button>  
+                                <Button onClick={() => handleGame()} className="my-4" style={{fontWeight: 'bold', background: '#ee6f57', color: 'white', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}}>Create Quiz</Button>  
                             </Col>
                         </Form>
                     </div>

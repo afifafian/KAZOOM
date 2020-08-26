@@ -26,7 +26,7 @@ const QuestionCard = ({data}) => {
                     {
                         data.choices.map((choice, index) => (
                             <Col key={index} xs="6">
-                                <span className="d-inline-block text-truncate answerBox" style={{width: '130px', background: choice.status ? '#306B34' : '#C8553D'}}>{choice.answer}</span>
+                                <span className="d-inline-block text-truncate answerBox" style={{width: '130px', background: choice.status ? '#145374' : '#C8553D'}}>{choice.answer}</span>
                             </Col>
                         ))
                     }

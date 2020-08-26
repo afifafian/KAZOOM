@@ -47,7 +47,7 @@ const Host = () => {
 
     return (
         <>
-            <div>
+            <div className="mt-5 text-light">
                     {
                         state.from === 'player' ? (
                             <>
@@ -66,7 +66,9 @@ const Host = () => {
                                         }
                                     </Row>
                                 </Container>
-                                <Button onClick={() => handlePlay()} >Play!</Button>
+                                <button type="button" className="buttonLogin" onClick={() => handlePlay()} >Play!</button>
+                                <h4 className="mt-5 text-center" ><i>"Isi adalah kosong, kosong adalah isi."</i></h4>
+                                <h5 className="mt-2 text-center" ><i>-Tom Sam Chong (Kera Sakti 1996)</i></h5>
                             </div>
                         )
                     }

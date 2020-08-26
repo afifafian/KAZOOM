@@ -29,29 +29,31 @@ const ResultTeacher = () => {
     }
 
     return (
-        <div className="d-flex flex-column align-items-center">
-            <Container className="mt-5">
-                <h3 className="text-center">Result</h3>
-                <Table>
-                    <thead>
-                        <tr>
-                        <th>User</th>
-                        <th>Final Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            pureResult.map(result => (
-                                <tr key={result.id}>
-                                    <td>{result.user}</td>
-                                    <td>{result.point}</td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </Table>
+        <div className="d-flex flex-column align-items-center mr-3">
+            <Container className="tableResultTeacher" style={{marginTop: '100px', color: 'white'}}>
+                <h3 className="text-center mb-4">Result</h3>
+                <div style={{minHeight: '300px'}}>
+                    <Table className="text-center text-light">
+                        <thead>
+                            <tr>
+                            <th>User</th>
+                            <th>Final Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                pureResult.map(result => (
+                                    <tr key={result.id}>
+                                        <td>{result.user}</td>
+                                        <td>{result.point}</td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </Table>
+                </div>
             </Container>
-            <Button onClick={() => handleHome()}>Home</Button>
+            <button className="buttonLogin" onClick={() => handleHome()}>Home</button> 
         </div>
     )
 

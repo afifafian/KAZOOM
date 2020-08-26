@@ -24,7 +24,7 @@ const typeDefs = gql`
     }
     extend type Mutation {
         loginUser(user: UserInput): Token
-        addUser(newUser: UserInput!): User
+        addUser(newUser: UserInput): User
     }
 `;
 
@@ -60,6 +60,7 @@ const resolvers = {
                     data: loginData,
                 });
                 if (data) {
+                    console.log(data, `ini tokennya`)
                     return data;
                 }
             } catch (error) {
@@ -70,6 +71,7 @@ const resolvers = {
             try {
                 const { username, password } = args.newUser;
                 const newData = { username, password };
+                console.log(newData, `masuk`)
                 const { data } = await axios({
                     url: registerUrl,
                     method: "POST",
@@ -80,6 +82,7 @@ const resolvers = {
                     users.push(data);
                     redis.set("users", JSON.stringify(users));
                 }
+                console.log(data)
                 return data;
             } catch (error) {
                 console.log(error)
