@@ -26,16 +26,15 @@ const Result = () => {
         deleteMany()
     }
         return (
-            <div className="d-flex flex-column align-items-center">
-                <Container className="mt-5">
-                    <h3 className="text-center">Result</h3>
-                        <div className="text-center">
+            <div className="d-flex flex-column align-items-center mr-3">
+                <Container className="tableResult" style={{marginTop: '150px', minHeight: '300px'}}>
+                        <div className="text-center text-light">
                             <h1>Congratulation {localStorage.player}!</h1>
-                            <h3>Your result is...</h3>
+                            <h3>Your result is..</h3>
                             <h2>{localStorage.point}</h2>
                         </div>
                 </Container>
-                <Button onClick={() => handleHome()}>Home</Button>
+                <button type="button" className="buttonLogin" onClick={() => handleHome()}>Home</button>
             </div>
         )
 }

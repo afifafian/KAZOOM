@@ -94,21 +94,21 @@ const QuestionPage = () => {
     if (!start) {
         if (state) {
             return (
-                <>
-                    <Button className="mt-5" onClick={() => handleQuestion()}>Start Question</Button>
-                </>
+                <div className="mt-5 d-flex justify-content-center"> 
+                    <button style={{fontSize: '20px'}} type="button" className="mt-5 buttonLogin" onClick={() => handleQuestion()}>Start Question</button>
+                </div>
             )
         } else {
             return (
                 <>
-                    <h1 className="mt-5 text-center">Please wait for question to start...</h1>
+                    <h1 className="mt-5 text-center text-light">Please wait for question to start...</h1>
                 </>
             )
         }
     }
 
     return (
-        <Container className="text-center mt-5">
+        <Container className="text-center mt-5" style={{color: 'white'}}>
             <h2>Question {countQuest}</h2>
             <h3>Time {time}</h3>
             {
@@ -119,9 +119,9 @@ const QuestionPage = () => {
                             {
                                 questions[count].choices.map((choice, index) => (
                                     <Col key={index} xs="6" className="mt-2 px-2">
-                                        <Button disabled={disableButton}
+                                        <button className="buttonAnswer" type="button" disabled={disableButton}
                                         onClick={() => handleAnswer(choice.status)} 
-                                        style={{width: '200px'}}>{choice.answer}</Button>
+                                        style={{width: '200px', background: disableButton && '#4AOT1'}}>{choice.answer}</button>
                                     </Col>
                                 ))
                             }
@@ -130,28 +130,30 @@ const QuestionPage = () => {
                 ) :
                 <h1>No Questions!!</h1>
             }
-            <div className="d-flex justify-content-center mt-5">
+            <div>
                 {
                     state && (
-                    <>
-                        <div className="mx-3">
-                            <span>Correct Answer</span>
-                            <ul>
-                                {
-                                    correctStudent.map((stud, index) => <li key={index}>{stud}</li>)
-                                }
-                            </ul>
+                    <div>
+                        <div className="d-flex justify-content-center mt-5">
+                            <div className="mx-3 answerResult" style={{background: '#206a5d', color: 'white'}}>
+                                <span>Correct Answer</span>
+                                <ul style={{listStyle: 'none'}}>
+                                    {
+                                        correctStudent.map((stud, index) => <li key={index}>{stud}</li>)
+                                    }
+                                </ul>
+                            </div>
+                            <div className="mx-3 answerResult" style={{background: '#ea5455', color: 'white'}}>
+                                <span>Wrong Answer</span>
+                                <ul style={{listStyle: 'none'}}>
+                                    {
+                                        falseStudent.map((stud, index) => <li key={index}>{stud}</li>)
+                                    }
+                                </ul>
+                            </div>
                         </div>
-                        <div className="mx-3">
-                            <span>Wrong Answer</span>
-                            <ul>
-                                {
-                                    falseStudent.map((stud, index) => <li key={index}>{stud}</li>)
-                                }
-                            </ul>
-                        </div>
-                        <Button onClick={() => handleNextQuestion()} className="my-3">Next Question</Button>
-                    </>
+                        <button type="button" className="buttonLogin my-3" style={{fontSize: '20px', background: '#ee6f57'}} onClick={() => handleNextQuestion()}>Next Question</button>
+                    </div>
                     )
                 }
             </div>

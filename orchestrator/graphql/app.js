@@ -153,13 +153,10 @@ io.on('connection', socket => {
         } else {
             falseStud.push(name)
         }
-        newPlayers = players.filter(player => player.type === 'student' && player.user !== name)
-        console.log(newPlayers, `ini newPlayers`)
         io.emit('studentResult', {
             correctStud,
             falseStud,
             players,
-            newPlayers,
         })
     })
 

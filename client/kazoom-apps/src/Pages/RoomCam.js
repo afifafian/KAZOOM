@@ -10,15 +10,12 @@ import {
 import { Col, Row } from 'reactstrap';
 import { Host, QuestionPage, Result, ResultTeacher } from '../Pages';
 
-const Container = styled.div`
-    display: flex;
-    margin: auto;
-    flex-wrap: wrap;
-`;
-
 const StyledVideo = styled.video`
-    height: 300px;
-    width: 300px;
+    height: 200px;
+    width: 200px;
+    margin-left: 30px;
+    background: white;
+    border-radius: 10px;
 `;
 
 const Video = (props) => {
@@ -37,8 +34,8 @@ const Video = (props) => {
 
 
 const videoConstraints = {
-    height: window.innerHeight / 2,
-    width: window.innerWidth / 2
+    height: 0,
+    width: 0
 };
 
 const Room = (props) => {
@@ -115,9 +112,9 @@ const Room = (props) => {
     }
 
     return (
-        <Container>
+        <div>
             <Row>
-                <Col>
+                <Col xs="5" className="pt-2" style={{background: '#2d4059', minHeight: '100vh'}}>
                     <StyledVideo muted ref={userVideo} autoPlay playsInline />
                         {peers.map((peer, index) => {
                         return (
@@ -134,7 +131,7 @@ const Room = (props) => {
                     </Switch>
                 </Col>
             </Row>
-        </Container>
+        </div>
     );
 };
 

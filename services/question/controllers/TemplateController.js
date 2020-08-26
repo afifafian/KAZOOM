@@ -16,13 +16,13 @@ class TemplateController {
         }
         else if (req.body.questions.length < 1) {
             return res.status(400).json({ "message": "Questions must be filled!" })
-        } else if (req.body.userId === "" || !req.body.userId) {
+        } else if (req.body.username === "" || !req.body.username) {
             return res.status(400).json({ "message": "Id User must be filled!" })
         }
         const newTemplate = {
             title: req.body.title,
             questions: req.body.questions,
-            userId: req.body.userId,
+            username: req.body.username,
         }
         TemplateModel.create(newTemplate)
         .then(data => {

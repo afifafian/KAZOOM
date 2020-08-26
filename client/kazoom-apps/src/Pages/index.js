@@ -6,3 +6,5 @@ export {default as QuestionPage} from './QuestionPage';
 export {default as Result} from './Result';
 export {default as ResultTeacher} from './ResultTeacher';
 export {default as Room} from './RoomCam';
+export {default as Login} from './Login';
+export {default as Register} from './Register';

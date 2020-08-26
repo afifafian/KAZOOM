@@ -10,7 +10,7 @@ const typeDefs = gql`
         _id: ID
         title: String
         questions: [Question]
-        userId: String
+        username: String
     }
     type Messages {
         messages: String
@@ -57,9 +57,10 @@ const resolvers = {
                 const { title, questions: questTempt, token } = args.newTemplate;
                 let decode = jwt.verify(token, "jwtSECRET");
                 console.log(decode)
-                let userId = decode._id
+                let username = decode.username
                 const questions = JSON.parse(questTempt)
-                const newData = { title, questions, userId };
+                const newData = { title, questions, username };
+                console.log(newData, `masuk gak`)
                 const { data } = await axios({
                     url: templateUrl,
                     method: "POST",

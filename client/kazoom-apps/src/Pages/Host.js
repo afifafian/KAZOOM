@@ -47,7 +47,7 @@ const Host = () => {
 
     return (
         <>
-            <div>
+            <div className="mt-5 text-light">
                     {
                         state.from === 'player' ? (
                             <>
@@ -66,7 +66,8 @@ const Host = () => {
                                         }
                                     </Row>
                                 </Container>
-                                <Button onClick={() => handlePlay()} >Play!</Button>
+                                <button type="button" className="buttonLogin" onClick={() => handlePlay()} >Play!</button>
+                                <h3 className="mt-5 text-center" ><i>"Isi adalah kosong, kosong adalah isi."</i></h3>
                             </div>
                         )
                     }
