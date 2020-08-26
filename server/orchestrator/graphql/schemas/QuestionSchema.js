@@ -25,7 +25,6 @@ const typeDefs = gql`
     }
     extend type Query {
         questions: [Question]
-        
     }
     extend type Mutation {
         addQuestion(newQuestion: QuestionInput): Question
@@ -42,7 +41,7 @@ const resolvers = {
                 if (questions) {
                     return questions;
                 } else {
-                    const {data} = await axios({
+                    const { data } = await axios({
                         url: questionUrl,
                         method: "GET",
                     });
@@ -50,7 +49,6 @@ const resolvers = {
                     return data;
                 }
             } catch (error) {
-                console.log(error);
                 return error;
             }
         },
@@ -58,10 +56,8 @@ const resolvers = {
     Mutation: {
         addQuestion: async (parent, args, contex, info) => {
             try {
-                // console.log("masuk?")
                 const { question, choices: choice2, point } = args.newQuestion;
-                const choices = JSON.parse(choice2)
-                // console.log(choices, "ini choices parsed")
+                const choices = JSON.parse(choice2);
                 const newData = { question, choices, point };
                 const { data } = await axios({
                     url: questionUrl,
@@ -75,8 +71,7 @@ const resolvers = {
                 }
                 return data;
             } catch (error) {
-                // console.log(error)
-                return(error)
+                return error;
             }
         },
         deleteOneQuestion: async (parent, args, contex, info) => {
@@ -88,7 +83,9 @@ const resolvers = {
                 });
                 const questions = JSON.parse(await redis.get("questions"));
                 if (questions) {
-                    let notDeleted = questions.filter((question) => question._id !== id)
+                    let notDeleted = questions.filter(
+                        (question) => question._id !== id
+                    );
                     redis.set("questions", JSON.stringify(notDeleted));
                 }
                 return data;
@@ -104,14 +101,14 @@ const resolvers = {
                 });
                 const questions = JSON.parse(await redis.get("questions"));
                 if (questions) {
-                    redis.del("questions")
+                    redis.del("questions");
                 }
                 return data;
             } catch (error) {
                 return error;
             }
-        }
-    }
+        },
+    },
 };
 
 module.exports = {

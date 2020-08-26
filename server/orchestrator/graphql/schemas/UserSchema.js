@@ -36,7 +36,7 @@ const resolvers = {
                 if (users) {
                     return users;
                 } else {
-                    const {data} = await axios({
+                    const { data } = await axios({
                         url: leaderboardsUrl,
                         method: "GET",
                     });
@@ -44,7 +44,6 @@ const resolvers = {
                     return data;
                 }
             } catch (error) {
-                console.log(error);
                 return error;
             }
         },
@@ -60,7 +59,6 @@ const resolvers = {
                     data: loginData,
                 });
                 if (data) {
-                    console.log(data, `ini tokennya`)
                     return data;
                 }
             } catch (error) {
@@ -71,7 +69,6 @@ const resolvers = {
             try {
                 const { username, password } = args.newUser;
                 const newData = { username, password };
-                console.log(newData, `masuk`)
                 const { data } = await axios({
                     url: registerUrl,
                     method: "POST",
@@ -82,14 +79,12 @@ const resolvers = {
                     users.push(data);
                     redis.set("users", JSON.stringify(users));
                 }
-                console.log(data)
                 return data;
             } catch (error) {
-                console.log(error)
-                return(error)
+                return error;
             }
         },
-    }
+    },
 };
 
 module.exports = {

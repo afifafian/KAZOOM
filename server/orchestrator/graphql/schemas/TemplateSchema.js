@@ -22,7 +22,6 @@ const typeDefs = gql`
     }
     extend type Query {
         templates: [Template]
-        
     }
     extend type Mutation {
         addTemplate(newTemplate: TemplateInput): Template
@@ -38,7 +37,7 @@ const resolvers = {
                 if (templates) {
                     return templates;
                 } else {
-                    const {data} = await axios({
+                    const { data } = await axios({
                         url: templateUrl,
                         method: "GET",
                     });
@@ -46,7 +45,6 @@ const resolvers = {
                     return data;
                 }
             } catch (error) {
-                console.log(error);
                 return error;
             }
         },
@@ -54,13 +52,15 @@ const resolvers = {
     Mutation: {
         addTemplate: async (parent, args, contex, info) => {
             try {
-                const { title, questions: questTempt, token } = args.newTemplate;
+                const {
+                    title,
+                    questions: questTempt,
+                    token,
+                } = args.newTemplate;
                 let decode = jwt.verify(token, "jwtSECRET");
-                console.log(decode)
-                let username = decode.username
-                const questions = JSON.parse(questTempt)
+                let username = decode.username;
+                const questions = JSON.parse(questTempt);
                 const newData = { title, questions, username };
-                console.log(newData, `masuk gak`)
                 const { data } = await axios({
                     url: templateUrl,
                     method: "POST",
@@ -73,8 +73,7 @@ const resolvers = {
                 }
                 return data;
             } catch (error) {
-                console.log(error)
-                return(error)
+                return error;
             }
         },
         deleteTemplate: async (parent, args, contex, info) => {
@@ -86,7 +85,9 @@ const resolvers = {
                 });
                 const templates = JSON.parse(await redis.get("templates"));
                 if (templates) {
-                    let notDeleted = templates.filter((template) => template._id !== id)
+                    let notDeleted = templates.filter(
+                        (template) => template._id !== id
+                    );
                     redis.set("templates", JSON.stringify(notDeleted));
                 }
                 return data;
@@ -94,7 +95,7 @@ const resolvers = {
                 return error;
             }
         },
-    }
+    },
 };
 // type Choice {
 //     answer: String
