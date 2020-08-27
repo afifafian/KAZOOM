@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Container, Button } from 'reactstrap';
+import { Table, Container } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import { playerPoints, questionsData } from '../config/makeVar';
 import { DELETE_ALL_QUESTION, FETCH_QUESTIONS } from '../config/queries';
@@ -29,7 +29,7 @@ const ResultTeacher = () => {
     }
 
     return (
-        <div className="d-flex flex-column align-items-center mr-3">
+        <div className="d-flex flex-column align-items-center  mx-5">
             <Container className="tableResultTeacher" style={{marginTop: '100px', color: 'white'}}>
                 <h3 className="text-center mb-4">Result</h3>
                 <div style={{minHeight: '300px'}}>
@@ -53,7 +53,7 @@ const ResultTeacher = () => {
                     </Table>
                 </div>
             </Container>
-            <button className="buttonLogin" onClick={() => handleHome()}>Home</button> 
+            <button className="buttonLogin mt-5" onClick={() => handleHome()}>Home</button> 
         </div>
     )
 

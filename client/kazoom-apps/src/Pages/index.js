@@ -8,3 +8,4 @@ export {default as ResultTeacher} from './ResultTeacher';
 export {default as Room} from './RoomCam';
 export {default as Login} from './Login';
 export {default as Register} from './Register';
+export {default as NotFound} from './404NotFound';

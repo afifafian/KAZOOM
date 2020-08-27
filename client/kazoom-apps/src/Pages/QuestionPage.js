@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { playerPoints } from '../config/makeVar';
 import io from 'socket.io-client';
 import useSound from 'use-sound';
 import nextQuestion from '../assets/sounds/next_question.mp3';
 import finalResult from '../assets/sounds/result_page.mp3';
-const PORT = 'http://localhost:4000/';
+const PORT = 'https://kazoom.ajatdarojat45.space/';
 
 
 const QuestionPage = () => {
@@ -28,7 +28,6 @@ const QuestionPage = () => {
 
         //when teacher click start button, the questions set.  
         socket.on('playGame', ({quests, initPlayers}) => {
-            const initialPlayers = initPlayers.filter(player => player.type === 'student')
             setQuestions(quests)
             setCorrectStud([])
             setFalseStud([])    
@@ -116,9 +115,11 @@ const QuestionPage = () => {
     }
 
     return (
-        <Container className="text-center mt-5" style={{color: 'white'}}>
-            <h2>Question {countQuest}</h2>
-            <h3>Time {time}</h3>
+        <Container className="text-center mt-5" style={{color: 'white', height: '80vh'}}>
+            <h2 className="font-weight-bold">Question {countQuest}</h2>
+            <div className="text-center">
+                <h3 className="font-weight-bold text-center">Time: {time}</h3>
+            </div>
             {
                 questions.length > 0 ? (
                     <>

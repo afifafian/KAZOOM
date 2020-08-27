@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import Swal from 'sweetalert2';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import withReactContent from 'sweetalert2-react-content';
 import { LOGIN_USER } from '../config/queries';
 import { useMutation } from '@apollo/client';
@@ -15,7 +15,19 @@ const LoginPage = (props) => {
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     // const [wantLogin, setWantLogin] = useState(false)
-    const [loginUser, {data}] = useMutation(LOGIN_USER)
+    const [loginUser, {data, error}] = useMutation(LOGIN_USER, {
+        onCompleted: () => {
+            if (error) {
+                MySwal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Invalid username or password!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        }
+    })
 
     useEffect(() => {
         if (data) {

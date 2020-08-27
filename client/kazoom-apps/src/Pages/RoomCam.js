@@ -47,7 +47,7 @@ const Room = (props) => {
     const {url} = useRouteMatch()
 
     useEffect(() => {
-        socketRef.current = io.connect("http://localhost:4000");
+        socketRef.current = io.connect("https://kazoom.ajatdarojat45.space/");
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then(stream => {
             userVideo.current.srcObject = stream;
             socketRef.current.emit("join room", roomID);

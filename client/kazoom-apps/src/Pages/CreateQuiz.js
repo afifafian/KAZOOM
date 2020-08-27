@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { QuestionCard, Collection } from "../Components";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import {
     FETCH_QUESTIONS,
@@ -21,7 +21,7 @@ import withReactContent from "sweetalert2-react-content";
 import random from "randomatic";
 import io from "socket.io-client";
 const MySwal = withReactContent(Swal);
-const PORT = "http://localhost:4000/";
+const PORT = "https://kazoom.ajatdarojat45.space/";
 
 const CreateQuiz = () => {
     const [playButton] = useSound(clickSound);
@@ -32,7 +32,6 @@ const CreateQuiz = () => {
     const [idGame, setIdGame] = useState("");
     const [timer, setTimer] = useState("");
     const [questions, setQuestions] = useState([]);
-    // const questions = questionsData()
     const [collections, setCollections] = useState([]);
     const [saveCollection, setSaveCollection] = useState(false);
     const [pointQuestion, setPointQuestion] = useState("");

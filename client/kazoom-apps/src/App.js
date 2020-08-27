@@ -1,10 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
-import {
-  Navbar,
-  Button
-} from 'reactstrap';
-import { Home, CreateQuiz, PlayGate, Room, Login, Register } from './Pages';
+import { Home, CreateQuiz, PlayGate, Room, Login, Register, NotFound } from './Pages';
 import { ApolloProvider } from '@apollo/client';
 import client from './config';
 import {
@@ -14,10 +10,7 @@ import {
 } from 'react-router-dom';
 
 function App() {
-  const [isOpen, setIsOpen] = useState(false);
 
-  const toggle = () => setIsOpen(!isOpen);
-  
   return (
     <>
       <ApolloProvider client={client}>
@@ -30,6 +23,7 @@ function App() {
               <Route exact path="/create" component={CreateQuiz}/>
               <Route exact path="/player" component={PlayGate}/>
               <Route path="/room/:id" component={Room}/>
+              <Route path='*' component={NotFound}/>
             </Switch>
           </div>
         </Router>
