@@ -4,10 +4,13 @@ import { useHistory } from 'react-router-dom';
 import { playerPoints, questionsData } from '../config/makeVar';
 import { DELETE_ALL_QUESTION, FETCH_QUESTIONS } from '../config/queries';
 import { useMutation } from '@apollo/client';
+import useSound from 'use-sound';
+import clickSound from '../assets/sounds/click_button.mp3';
 
 const ResultTeacher = () => {
     const history = useHistory()
     const results = playerPoints()
+    const [playButton] = useSound(clickSound)
     const pureResult = results.filter(result => result.type !== 'teacher')
     const [deleteMany] = useMutation(DELETE_ALL_QUESTION, {
         refetchQueries: [{
@@ -25,6 +28,7 @@ const ResultTeacher = () => {
     })
 
     const handleHome = () => {
+        playButton()
         deleteMany()
     }
 

@@ -112,7 +112,7 @@ io.on('connection', socket => {
             if (flag === false) {
                 gameRoom.players.push(newPlayer)
                 io.emit('roomGame', gameRoom)
-                io.emit('go-waiting', newPlayer.room)
+                socket.emit('go-waiting', newPlayer.room)
             } else {
                 io.emit('alert-samePlayer')
             }

@@ -4,9 +4,12 @@ import { useHistory } from 'react-router-dom';
 import { playerPoints, questionsData } from '../config/makeVar';
 import { DELETE_ALL_QUESTION, FETCH_QUESTIONS } from '../config/queries';
 import { useMutation } from '@apollo/client';
+import useSound from 'use-sound';
+import clickSound from '../assets/sounds/click_button.mp3';
 
 const Result = () => {
     const history = useHistory()
+    const [playButton] = useSound(clickSound)
     const [deleteMany] = useMutation(DELETE_ALL_QUESTION, {
         refetchQueries: [{
             query: FETCH_QUESTIONS
@@ -23,6 +26,7 @@ const Result = () => {
     })
 
     const handleHome = () => {
+        playButton()
         deleteMany()
     }
         return (

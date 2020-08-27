@@ -4,10 +4,13 @@ import { Player } from '../Components';
 import { useLocation, useHistory } from 'react-router-dom';
 import { questionsData, gameSettingLocal } from '../config/makeVar';
 import io from 'socket.io-client';
+import useSound from 'use-sound';
+import clickSound from '../assets/sounds/click_button.mp3';
 const PORT = 'https://kazoom2.ajatdarojat45.space/'
 
 const Host = () => {
     const socket = io(PORT) 
+    const [playButton] = useSound(clickSound)
     const {state} = useLocation()
     const history = useHistory()
     const [players, setPlayers] = useState([])
@@ -36,6 +39,7 @@ const Host = () => {
     }, [])
 
     const handlePlay = () => {
+        playButton()
         socket.emit('goPlay')
         history.push({
             pathname: `/room/${roomId}/questions`,

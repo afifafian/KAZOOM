@@ -10,11 +10,9 @@ import clickSound from '../assets/sounds/click_button.mp3';
 const MySwal = withReactContent(Swal)
 
 const LoginPage = (props) => {
-    // const history = useHistory()
     const [playButton] = useSound(clickSound)
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
-    // const [wantLogin, setWantLogin] = useState(false)
     const [loginUser, {data, error}] = useMutation(LOGIN_USER, {
         onCompleted: () => {
             if (error) {
@@ -66,12 +64,12 @@ const LoginPage = (props) => {
 
     return (
         <>
-            <audio controls autoPlay="true" hidden >
+            {/* <audio controls autoPlay="true" hidden >
                 <source 
-                src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" 
+                src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Scott_Holmes/Inspiring__Upbeat_Music/Scott_Holmes_-_01_-_Storybook.mp3" 
                 type="audio/ogg" >
                 </source>
-            </audio>
+            </audio> */}
             <div style={{minHeight: '100vh', paddingTop: '10px'}}>
                 <img style={{display: 'block', margin: '30px auto'}} width="250" src='https://i.ibb.co/4N7Rf8g/Logo-Kazoom.png' alt="logo"/>
                 <div className="formPlay" style={{height: '400px'}}>

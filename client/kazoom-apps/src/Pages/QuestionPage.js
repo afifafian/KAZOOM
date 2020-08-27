@@ -38,6 +38,8 @@ const QuestionPage = () => {
 
         //when teacher move to the next question
         socket.on('nextQuestion', () => {
+            setCountQuest(countQuest+1)
+            setCount(count+1)
             playQuestion()
             setDisableButton(false)
             setCorrectStud([])
@@ -83,9 +85,8 @@ const QuestionPage = () => {
 
     const handleNextQuestion = () => {
         if (count < questions.length-1) {
+            playQuestion()
             socket.emit('nextQuestion')
-            setCountQuest(countQuest+1)
-            setCount(count+1)
             socket.emit('timer')
         } else {
             playResult()
@@ -94,6 +95,7 @@ const QuestionPage = () => {
     }
 
     const handleQuestion = () => {
+        playQuestion()
         socket.emit('playGame')
         socket.emit('timer')
     }
