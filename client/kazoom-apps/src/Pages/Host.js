@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Container, Button } from 'reactstrap';
+import { Row, Container } from 'reactstrap';
 import { Player } from '../Components';
 import { useLocation, useHistory } from 'react-router-dom';
 import { questionsData, gameSettingLocal } from '../config/makeVar';
 import io from 'socket.io-client';
-const PORT = 'http://localhost:4000/'
+import useSound from 'use-sound';
+import clickSound from '../assets/sounds/click_button.mp3';
+const PORT = 'https://kazoom2.ajatdarojat45.space/'
 
 const Host = () => {
     const socket = io(PORT) 
+    const [playButton] = useSound(clickSound)
     const {state} = useLocation()
     const history = useHistory()
     const [players, setPlayers] = useState([])
@@ -36,6 +39,7 @@ const Host = () => {
     }, [])
 
     const handlePlay = () => {
+        playButton()
         socket.emit('goPlay')
         history.push({
             pathname: `/room/${roomId}/questions`,
@@ -51,8 +55,10 @@ const Host = () => {
                     {
                         state.from === 'player' ? (
                             <>
-                                <h3 className="text-center mt-5">Welcome {localStorage.player}</h3>
+                                <h3 className="text-center" style={{marginTop: '80px'}}>Welcome {localStorage.player}</h3>
                                 <h4 className="text-center mt-3">Waiting for game to play...</h4>
+                                <h4 className="mt-5 text-center" ><i>"Isi adalah kosong, kosong adalah isi."</i></h4>
+                                <h5 className="mt-2 text-center" ><i>-Tom Sam Chong (Kera Sakti 1996)</i></h5>
                             </>
                         )
                         : (

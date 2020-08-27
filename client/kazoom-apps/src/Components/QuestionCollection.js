@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "reactstrap";
 import { DELETE_COLLECTION, FETCH_COLLECTIONS } from "../config/queries";
 import { useMutation } from "@apollo/client";
-import { questionsData } from "../config/makeVar";
 
 const Collection = ({ data, addCollection }) => {
     const [deleteTemplate] = useMutation(DELETE_COLLECTION, {

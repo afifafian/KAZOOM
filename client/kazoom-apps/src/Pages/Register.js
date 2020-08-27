@@ -15,7 +15,7 @@ const RegisterPage = () => {
     const history = useHistory()
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
-    const [addUser, {data}] = useMutation(ADD_USER, {
+    const [addUser] = useMutation(ADD_USER, {
         refetchQueries: [{
             query: GET_USERS
         }],

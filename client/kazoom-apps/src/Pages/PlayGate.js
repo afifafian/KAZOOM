@@ -7,13 +7,11 @@ import withReactContent from 'sweetalert2-react-content'
 import useSound from 'use-sound';
 import clickSound from '../assets/sounds/click_button.mp3';
 const MySwal = withReactContent(Swal)
-const PORT = 'http://localhost:4000/'
+const PORT = 'https://kazoom2.ajatdarojat45.space/'
 
 const PlayGate = () => {
     const [playButton] = useSound(clickSound)
     const socket = io(PORT)
-    const socketRef = useRef();
-    socketRef.current = io.connect("http://localhost:4000");
     const [inputId, setInputId] = useState(``)
     const [player, setPlayer] = useState(``)
     const history = useHistory()
