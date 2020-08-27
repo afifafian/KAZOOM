@@ -21,7 +21,7 @@ import withReactContent from "sweetalert2-react-content";
 import random from "randomatic";
 import io from "socket.io-client";
 const MySwal = withReactContent(Swal);
-const PORT = "https://kazoom.ajatdarojat45.space/";
+const PORT = "https://kazoom2.ajatdarojat45.space/";
 
 const CreateQuiz = () => {
     const [playButton] = useSound(clickSound);

@@ -4,7 +4,7 @@ import { Player } from '../Components';
 import { useLocation, useHistory } from 'react-router-dom';
 import { questionsData, gameSettingLocal } from '../config/makeVar';
 import io from 'socket.io-client';
-const PORT = 'https://kazoom.ajatdarojat45.space/'
+const PORT = 'https://kazoom2.ajatdarojat45.space/'
 
 const Host = () => {
     const socket = io(PORT) 

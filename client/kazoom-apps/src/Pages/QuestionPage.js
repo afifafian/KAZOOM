@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 import useSound from 'use-sound';
 import nextQuestion from '../assets/sounds/next_question.mp3';
 import finalResult from '../assets/sounds/result_page.mp3';
-const PORT = 'https://kazoom.ajatdarojat45.space/';
+const PORT = 'https://kazoom2.ajatdarojat45.space/';
 
 
 const QuestionPage = () => {

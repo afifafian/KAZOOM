@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { questionsData, playerPoints, gameSettingLocal, collectionsData, gameId, playersJoin, quizTitle, addTimer } from './makeVar';
 
 const client = new ApolloClient({
-    uri: 'https://kazoom.ajatdarojat45.space/',
+    uri: 'https://kazoom2.ajatdarojat45.space/',
     cache: new InMemoryCache({
         typePolicies: {
             Query: {
